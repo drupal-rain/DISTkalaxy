@@ -4,7 +4,7 @@
  * @implements hook_install().
  */
 function kalaxy_install() {
-  include_once DRUPAL_ROOT . '/profiles/minimal.install';
+  include_once DRUPAL_ROOT . '/profiles/minimal/minimal.install';
   minimal_install();
 
   // Set admin_theme.
