@@ -160,6 +160,7 @@
 	url = https://github.com/drupalprojects/views_bulk_operations.git
 	path = modules/base/views_bulk_operations
 	branch = 7.x-3.x
+
 ###############################################################################
 # modules/common
 
@@ -203,6 +204,11 @@
 	path = modules/common/multiform
 	branch = 7.x-1.1
 
+[subtree "modules/common/subpathauto"]
+	url = https://github.com/drupalprojects/subpathauto.git
+	path = modules/common/subpathauto
+	branch = 7.x-1.x
+
 [subtree "modules/common/taxonomy_manager"]
 	url = https://github.com/drupalprojects/taxonomy_manager.git
 	path = modules/common/taxonomy_manager
@@ -242,9 +248,9 @@
 	path = modules/dev/devel_themer
 	branch = 7.x-1.x
 
-[subtree "modules/dev/elements"]
+[subtree "modules/common/elements"]
 	url = https://github.com/drupalprojects/elements.git
-	path = modules/dev/elements
+	path = modules/common/elements
 	branch = 7.x-1.x
 
 [subtree "modules/dev/ktools"]
@@ -269,3 +275,4 @@
 	url = https://github.com/drupalprojects/shiny.git
 	path = themes/admin/shiny
 	branch = 7.x-1.x
+
