@@ -230,6 +230,16 @@
 	path = modules/feature/body_field_definition
 	branch = 7.x-1.0
 
+[subtree "modules/feature/talk"]
+	url = https://github.com/drupal-rain/talk.git
+	path = modules/feature/talk
+	branch = 7.x-1.x
+
+[subtree "modules/feature/topic"]
+	url = https://github.com/drupal-rain/topic.git
+	path = modules/feature/topic
+	branch = 7.x-1.x
+
 ###############################################################################
 # modules/dev
 
@@ -275,4 +285,3 @@
 	url = https://github.com/drupalprojects/shiny.git
 	path = themes/admin/shiny
 	branch = 7.x-1.x
-
