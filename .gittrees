@@ -1,0 +1,56 @@
+###############################################################################
+# modules/base
+
+[subtree "modules/base/admin_menu"]
+	url = https://github.com/drupalprojects/admin_menu.git
+	path = modules/base/admin_menu
+	branch = 7.x-3.x
+
+###############################################################################
+# modules/common
+
+###############################################################################
+# modules/extra
+
+###############################################################################
+# modules/feature
+
+###############################################################################
+# modules/dev
+
+[subtree "modules/dev/backup_migrate"]
+	url = https://github.com/drupalprojects/backup_migrate.git
+	path = modules/dev/backup_migrate
+	branch = 7.x-3.x
+
+[subtree "modules/dev/devel"]
+	url = https://github.com/drupalprojects/devel.git
+	path = modules/dev/devel
+	branch = 7.x-1.x
+
+[subtree "modules/dev/devel_themer"]
+	url = https://github.com/drupalprojects/devel_themer.git
+	path = modules/dev/devel_themer
+	branch = 7.x-1.x
+
+[subtree "modules/dev/elements"]
+	url = https://github.com/drupalprojects/elements.git
+	path = modules/dev/elements
+	branch = 7.x-1.x
+
+[subtree "modules/dev/ktools"]
+	url = https://github.com/drupal-rain/ktools.git
+	path = modules/dev/ktools
+	branch = 7.x-1.x
+
+[subtree "modules/dev/registry_rebuild"]
+	url = https://github.com/drupalprojects/registry_rebuild.git
+	path = modules/dev/registry_rebuild
+	branch = 7.x-2.x
+
+[subtree "modules/dev/schema"]
+	url = https://github.com/drupalprojects/schema.git
+	path = modules/dev/schema
+	branch = 7.x-1.x
+
+
