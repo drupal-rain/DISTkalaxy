@@ -1,0 +1,15 @@
+<?php
+
+/**
+ * @implements hook_install().
+ */
+function kalaxy_install() {
+  include_once DRUPAL_ROOT . '/profiles/minimal.install';
+  minimal_install();
+
+  // Set admin_theme.
+  variable_set('admin_theme', 'shiny');
+
+  // Initiate file_private_path.
+  variable_set('file_private_path', conf_path() . '/files_private');
+}
