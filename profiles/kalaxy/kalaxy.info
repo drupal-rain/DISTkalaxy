@@ -1,0 +1,66 @@
+; =============================================================================
+; Info
+
+name = Kalaxy
+description = Drupal installation profile.
+version = VERSION
+core = 7.x
+
+
+; =============================================================================
+; Dependencies
+
+; -----------------------------------------------------------------------------
+; Core
+
+dependencies[] = block
+dependencies[] = contextual
+dependencies[] = dblog
+; field
+dependencies[] = list
+dependencies[] = number
+dependencies[] = options
+dependencies[] = field_ui
+dependencies[] = file
+dependencies[] = image
+dependencies[] = menu
+dependencies[] = overlay
+dependencies[] = path
+dependencies[] = taxonomy
+
+; -----------------------------------------------------------------------------
+; Base
+
+dependencies[] = admin_menu
+dependencies[] = ctools
+; entity
+dependencies[] = entity
+dependencies[] = entity_token
+dependencies[] = entitycache
+dependencies[] = entityreference
+dependencies[] = features
+dependencies[] = field_collection
+dependencies[] = field_group
+dependencies[] = file_entity
+dependencies[] = globalredirect
+dependencies[] = libraries
+dependencies[] = machine_name
+dependencies[] = media
+dependencies[] = module_filter
+dependencies[] = pathauto
+dependencies[] = rules
+dependencies[] = strongarm
+dependencies[] = token
+dependencies[] = url
+dependencies[] = views
+dependencies[] = views_ui
+dependencies[] = views_bulk_operations
+
+; -----------------------------------------------------------------------------
+; Dev
+
+dependencies[] = backup_migrate
+dependencies[] = devel
+dependencies[] = ktools
+dependencies[] = schema
+
