@@ -1,0 +1,45 @@
+<?php
+
+/**
+ * @file
+ * KTools module file.
+ */
+
+// -----------------------------------------------------------------------------
+// General hooks
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function ktools_ctools_plugin_directory($owner, $plugin_type) {
+  if ($owner == 'ctools') {
+    return $owner . '/' . $plugin_type;
+  }
+}
+
+//------------------------------------------------------------------------------
+// String functions
+
+/**
+ * @deprecated
+ */
+function ktools_string_random($src, $len) {
+  return KtoolsString::strRandom($src, $len);
+}
+
+/**
+ * @deprecated
+ */
+function ktools_string_compare($value, $compare_to) {
+  return KtoolsString::strCompare($value, $compare_to);
+}
+
+//------------------------------------------------------------------------------
+// Entity functions
+
+/**
+ * @deprecated
+ */
+function ktools_entity_id($entity, $entity_type = '') {
+  KtoolsEntity::interId($entity, $entity_type);
+}
