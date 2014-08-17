@@ -1,1 +1,6 @@
+
+# Ignore .idea, IDE like PHPStorm
+.idea
+
+# Ignore '_' prefix
 _*
