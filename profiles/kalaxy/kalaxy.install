@@ -9,6 +9,7 @@ function kalaxy_install() {
 
   // Set admin_theme.
   variable_set('admin_theme', 'shiny');
+  variable_set('node_admin_theme', TRUE);
 
   // Initiate file_private_path.
   variable_set('file_private_path', conf_path() . '/files_private');

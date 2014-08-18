@@ -51,6 +51,13 @@ Modules that are useful in some specific situations.
 ## Feature
 Feature modules.
 
+| Module                                                          | Branch  |
+| --------------------------------------------------------------- | ------- |
+| [page](https://github.com/drupal-rain/page)                     | 7.x-1.x |
+| [article](https://github.com/drupal-rain/article)               | 7.x-1.x |
+| [topic](https://github.com/drupal-rain/topic)                   | 7.x-1.x |
+| [gallery](https://github.com/drupal-rain/gallery)               | 7.x-1.x |
+
 ## Dev
 Highly related to developer usage(only).
 
