@@ -5,6 +5,7 @@ A Drupal installation profile.
 Tools
 -----
 * [git-subtree](https://github.com/git/git/tree/master/contrib/subtree)
+    - [Fork/Mod .gittrees Support](https://github.com/matthoffman/git-subtree/blob/master/git-subtree.sh)
 * 
 
 Blueprint

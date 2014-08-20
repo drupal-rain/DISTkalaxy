@@ -1,6 +1,11 @@
 ###############################################################################
 # modules/base
 
+[subtree "modules/base/addressfield"]
+	url = https://github.com/drupalprojects/addressfield.git
+	path = modules/base/addressfield
+	branch = 7.x-1.x
+
 [subtree "modules/base/admin_menu"]
 	url = https://github.com/drupalprojects/admin_menu.git
 	path = modules/base/admin_menu
@@ -10,6 +15,11 @@
 	url = https://github.com/drupalprojects/ctools.git
 	path = modules/base/ctools
 	branch = 7.x-1.4
+
+[subtree "modules/base/date"]
+	url = https://github.com/drupalprojects/date.git
+	path = modules/base/date
+	branch = 7.x-2.x
 
 [subtree "modules/base/ds"]
 	url = https://github.com/drupalprojects/ds.git
@@ -161,18 +171,18 @@
 	path = modules/base/views_bulk_operations
 	branch = 7.x-3.x
 
+[subtree "modules/base/xautoload"]
+	url = https://github.com/drupalprojects/xautoload.git
+	path = modules/base/xautoload
+	branch = 7.x-5.x
+
 ###############################################################################
 # modules/common
 
-[subtree "modules/common/multiupload_filefield_widget"]
-	url = https://github.com/drupalprojects/multiupload_filefield_widget.git
-	path = modules/common/multiupload_filefield_widget
-	branch = 7.x-1.13
-
-[subtree "modules/common/multiupload_imagefield_widget"]
-	url = https://github.com/drupalprojects/multiupload_imagefield_widget.git
-	path = modules/common/multiupload_imagefield_widget
-	branch = 7.x-1.3
+[subtree "modules/common/crumbs"]
+	url = https://github.com/drupalprojects/crumbs.git
+	path = modules/common/crumbs
+	branch = 7.x-2.0-beta19
 
 [subtree "modules/common/entityreference_autocomplete"]
 	url = https://github.com/drupalprojects/entityreference_autocomplete.git
@@ -204,6 +214,16 @@
 	path = modules/common/multiform
 	branch = 7.x-1.1
 
+[subtree "modules/common/multiupload_filefield_widget"]
+	url = https://github.com/drupalprojects/multiupload_filefield_widget.git
+	path = modules/common/multiupload_filefield_widget
+	branch = 7.x-1.13
+
+[subtree "modules/common/multiupload_imagefield_widget"]
+	url = https://github.com/drupalprojects/multiupload_imagefield_widget.git
+	path = modules/common/multiupload_imagefield_widget
+	branch = 7.x-1.3
+
 [subtree "modules/common/subpathauto"]
 	url = https://github.com/drupalprojects/subpathauto.git
 	path = modules/common/subpathauto
@@ -213,6 +233,11 @@
 	url = https://github.com/drupalprojects/taxonomy_manager.git
 	path = modules/common/taxonomy_manager
 	branch = 7.x-1.0
+
+[subtree "modules/common/themekey"]
+	url = https://github.com/drupalprojects/themekey.git
+	path = modules/common/themekey
+	branch = 7.x-3.x
 
 [subtree "modules/common/views_tree"]
 	url = https://github.com/drupalprojects/views_tree.git
@@ -303,4 +328,12 @@
 [subtree "themes/admin/shiny"]
 	url = https://github.com/drupalprojects/shiny.git
 	path = themes/admin/shiny
+	branch = 7.x-1.x
+[subtree "modules/common/select_or_other"]
+	url = https://github.com/drupalprojects/select_or_other.git
+	path = modules/common/select_or_other
+	branch = 7.x-3.x
+[subtree "modules/common/field_tools"]
+	url = https://github.com/drupalprojects/field_tools.git
+	path = modules/common/field_tools
 	branch = 7.x-1.x

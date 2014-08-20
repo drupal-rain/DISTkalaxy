@@ -1,0 +1,9 @@
+
+name = "ThemeKey Features (Beta)"
+description = "Export single rules with Features."
+core = 7.x
+dependencies[]= themekey
+dependencies[]= features
+package = ThemeKey
+
+
