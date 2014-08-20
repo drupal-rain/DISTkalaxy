@@ -1,0 +1,8 @@
+name = Field tools
+description = Allows fields to be cloned to other entities.
+dependencies[] = field_ui
+dependencies[] = ctools
+package = Fields
+core = 7.x
+files[] = field_tools.module
+files[] = field_tools.admin.inc

@@ -1,0 +1,5 @@
+
+name = "Crumbs"
+description = "The ultimate breadcrumbs module"
+core = 7.x
+php = 5.2

@@ -1,0 +1,8 @@
+
+name = "ThemeKey User Profile"
+description = "Allows users to select their own theme for this site. Replaces the corresponding feature that existed in Drupal 6 Core."
+core = 7.x
+dependencies[]= themekey
+dependencies[]= themekey_ui
+package = ThemeKey
+configure = admin/config/user-interface/themekey/settings/ui
