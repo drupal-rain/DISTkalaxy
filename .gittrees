@@ -131,6 +131,11 @@
 	path = modules/base/rules
 	branch = 7.x-2.7
 
+[subtree "modules/base/safeword"]
+	url = https://github.com/drupalprojects/safeword.git
+	path = modules/base/safeword
+	branch = 7.x-1.x
+
 [subtree "modules/base/serial"]
 	url = https://github.com/drupalprojects/serial.git
 	path = modules/base/serial
@@ -155,6 +160,11 @@
 	url = https://github.com/drupalprojects/token.git
 	path = modules/base/token
 	branch = 7.x-1.5
+
+[subtree "modules/base/transliteration"]
+	url = https://github.com/drupalprojects/transliteration.git
+	path = modules/base/transliteration
+	branch = 7.x-3.x
 
 [subtree "modules/base/url"]
 	url = https://github.com/drupalprojects/url.git
@@ -194,6 +204,11 @@
 	path = modules/common/field_conditional_state
 	branch = 7.x-2.0
 
+[subtree "modules/common/field_tools"]
+	url = https://github.com/drupalprojects/field_tools.git
+	path = modules/common/field_tools
+	branch = 7.x-1.x
+
 [subtree "modules/common/filefield_paths"]
 	url = https://github.com/drupalprojects/filefield_paths.git
 	path = modules/common/filefield_paths
@@ -223,6 +238,11 @@
 	url = https://github.com/drupalprojects/multiupload_imagefield_widget.git
 	path = modules/common/multiupload_imagefield_widget
 	branch = 7.x-1.3
+
+[subtree "modules/common/select_or_other"]
+	url = https://github.com/drupalprojects/select_or_other.git
+	path = modules/common/select_or_other
+	branch = 7.x-3.x
 
 [subtree "modules/common/subpathauto"]
 	url = https://github.com/drupalprojects/subpathauto.git
@@ -328,12 +348,4 @@
 [subtree "themes/admin/shiny"]
 	url = https://github.com/drupalprojects/shiny.git
 	path = themes/admin/shiny
-	branch = 7.x-1.x
-[subtree "modules/common/select_or_other"]
-	url = https://github.com/drupalprojects/select_or_other.git
-	path = modules/common/select_or_other
-	branch = 7.x-3.x
-[subtree "modules/common/field_tools"]
-	url = https://github.com/drupalprojects/field_tools.git
-	path = modules/common/field_tools
 	branch = 7.x-1.x
