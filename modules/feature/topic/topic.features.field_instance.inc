@@ -54,8 +54,8 @@ function topic_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-subject-field_topic'
-  $field_instances['node-subject-field_topic'] = array(
+  // Exported field_instance: 'node-subject-og_topic_ref'
+  $field_instances['node-subject-og_topic_ref'] = array(
     'bundle' => 'subject',
     'default_value' => NULL,
     'deleted' => 0,
@@ -63,12 +63,10 @@ function topic_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'above',
-        'module' => 'entityreference',
-        'settings' => array(
-          'link' => FALSE,
-        ),
-        'type' => 'entityreference_label',
-        'weight' => 1,
+        'module' => 'og_ui',
+        'settings' => array(),
+        'type' => 'og_list_default',
+        'weight' => 2,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -78,21 +76,41 @@ function topic_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'node',
-    'field_name' => 'field_topic',
+    'field_name' => 'og_topic_ref',
     'label' => 'Topic',
     'required' => 1,
     'settings' => array(
+      'behaviors' => array(
+        'og_widget' => array(
+          'access_override' => 0,
+          'admin' => array(
+            'widget_type' => 'entityreference_autocomplete',
+          ),
+          'default' => array(
+            'widget_type' => 'options_select',
+          ),
+          'status' => TRUE,
+        ),
+      ),
       'user_register_form' => FALSE,
     ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'entityreference',
-      'settings' => array(
-        'match_operator' => 'CONTAINS',
-        'path' => '',
-        'size' => 60,
+    'view modes' => array(
+      'full' => array(
+        'custom settings' => FALSE,
+        'label' => 'Full',
+        'type' => 'og_list_default',
       ),
-      'type' => 'entityreference_autocomplete',
+      'teaser' => array(
+        'custom settings' => FALSE,
+        'label' => 'Teaser',
+        'type' => 'og_list_default',
+      ),
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'og',
+      'settings' => array(),
+      'type' => 'og_complex',
       'weight' => 0,
     ),
   );
@@ -137,7 +155,7 @@ function topic_field_default_field_instances() {
         'summary_rows' => 5,
       ),
       'type' => 'text_textarea_with_summary',
-      'weight' => 2,
+      'weight' => 3,
     ),
   );
 
@@ -150,10 +168,10 @@ function topic_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'above',
-        'module' => 'machine_name',
+        'module' => 'safeword',
         'settings' => array(),
-        'type' => 'machine_name_default',
-        'weight' => 1,
+        'type' => 'safeword_machine_basic',
+        'weight' => 3,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -165,24 +183,81 @@ function topic_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'field_topic_name',
     'label' => 'Machine Name',
-    'required' => 1,
+    'required' => FALSE,
     'settings' => array(
       'user_register_form' => FALSE,
     ),
     'widget' => array(
-      'active' => 0,
-      'module' => 'machine_name',
-      'settings' => array(
-        'size' => 128,
-      ),
-      'type' => 'machine_name_default',
+      'module' => 'safeword',
+      'settings' => array(),
+      'type' => 'safeword_machine_name_only',
       'weight' => 1,
+    ),
+  );
+
+  // Exported field_instance: 'node-topic-group_group'
+  $field_instances['node-topic-group_group'] = array(
+    'bundle' => 'topic',
+    'default_value' => array(
+      0 => array(
+        'value' => 1,
+      ),
+    ),
+    'deleted' => 0,
+    'description' => 'Determine if this is an OG group.',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'og_ui',
+        'settings' => array(
+          'field_name' => FALSE,
+        ),
+        'type' => 'og_group_subscribe',
+        'weight' => 2,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'display_label' => 1,
+    'entity_type' => 'node',
+    'field_name' => 'group_group',
+    'label' => 'Group',
+    'required' => FALSE,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'view modes' => array(
+      'full' => array(
+        'custom settings' => FALSE,
+        'label' => 'Full',
+        'type' => 'og_group_subscribe',
+      ),
+      'teaser' => array(
+        'custom settings' => FALSE,
+        'label' => 'Teaser',
+        'type' => 'og_group_subscribe',
+      ),
+    ),
+    'widget' => array(
+      'module' => 'options',
+      'settings' => array(
+        'display_label' => 0,
+        'og_hide' => TRUE,
+      ),
+      'type' => 'options_onoff',
+      'weight' => 2,
     ),
   );
 
   // Translatables
   // Included for use with string extractors like potx.
   t('Body');
+  t('Determine if this is an OG group.');
+  t('Group');
   t('Machine Name');
   t('Topic');
 
