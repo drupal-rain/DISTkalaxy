@@ -269,16 +269,22 @@
 
 ###############################################################################
 # modules/feature
+
 [subtree "modules/feature/article"]
 	url = https://github.com/drupal-rain/article.git
 	path = modules/feature/article
 	branch = 7.x-1.x
 
-[subtree "modules/feature/body_field_definition"]
-	url = https://github.com/drupalprojects/body_field_definition.git
-	path = modules/feature/body_field_definition
-	branch = 7.x-1.0
-    
+[subtree "modules/feature/field_base"]
+	url = https://github.com/drupal-rain/field_base.git
+	path = modules/feature/field_base
+	branch = 7.x-1.x
+
+[subtree "modules/feature/news"]
+	url = https://github.com/drupal-rain/news.git
+	path = modules/feature/news
+	branch = 7.x-1.x
+
 [subtree "modules/feature/page"]
 	url = https://github.com/drupal-rain/page.git
 	path = modules/feature/page
