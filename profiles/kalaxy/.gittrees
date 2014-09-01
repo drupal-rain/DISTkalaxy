@@ -11,6 +11,11 @@
 	path = modules/base/admin_menu
 	branch = 7.x-3.x
 
+[subtree "modules/base/cool"]
+	url = https://github.com/drupalprojects/cool.git
+	path = modules/base/cool
+	branch = 7.x-1.x
+
 [subtree "modules/base/ctools"]
 	url = https://github.com/drupalprojects/ctools.git
 	path = modules/base/ctools
@@ -50,6 +55,11 @@
 	url = https://github.com/drupalprojects/features.git
 	path = modules/base/features
 	branch = 7.x-2.2
+
+[subtree "modules/base/features_override"]
+	url = https://github.com/drupalprojects/features_override.git
+	path = modules/base/features_override
+	branch = 7.x-2.x
 
 [subtree "modules/base/field_collection"]
 	url = https://github.com/drupalprojects/field_collection.git
@@ -270,48 +280,38 @@
 ###############################################################################
 # modules/feature
 
-[subtree "modules/feature/article"]
-	url = https://github.com/drupal-rain/article.git
-	path = modules/feature/article
+[subtree "modules/feature/kfield"]
+	url = https://github.com/drupal-rain/kfield.git
+	path = modules/feature/kfield
 	branch = 7.x-1.x
 
-[subtree "modules/feature/field_base"]
-	url = https://github.com/drupal-rain/field_base.git
-	path = modules/feature/field_base
+[subtree "modules/feature/knews"]
+	url = https://github.com/drupal-rain/knews.git
+	path = modules/feature/knews
 	branch = 7.x-1.x
 
-[subtree "modules/feature/news"]
-	url = https://github.com/drupal-rain/news.git
-	path = modules/feature/news
+[subtree "modules/feature/kpage"]
+	url = https://github.com/drupal-rain/kpage.git
+	path = modules/feature/kpage
 	branch = 7.x-1.x
 
-[subtree "modules/feature/page"]
-	url = https://github.com/drupal-rain/page.git
-	path = modules/feature/page
+[subtree "modules/feature/ktopic"]
+	url = https://github.com/drupal-rain/ktopic.git
+	path = modules/feature/ktopic
 	branch = 7.x-1.x
 
-[subtree "modules/feature/talk"]
-	url = https://github.com/drupal-rain/talk.git
-	path = modules/feature/talk
-	branch = 7.x-1.x
-
-[subtree "modules/feature/topic"]
-	url = https://github.com/drupal-rain/topic.git
-	path = modules/feature/topic
-	branch = 7.x-1.x
-
-[subtree "modules/feature/talk"]
-	url = https://github.com/drupal-rain/talk.git
-	path = modules/feature/talk
-	branch = 7.x-1.x
-
-[subtree "modules/feature/topic"]
-	url = https://github.com/drupal-rain/topic.git
-	path = modules/feature/topic
+[subtree "modules/feature/ktopic_review"]
+	url = https://github.com/drupal-rain/ktopic_review.git
+	path = modules/feature/ktopic_review
 	branch = 7.x-1.x
 
 ###############################################################################
 # modules/dev
+
+[subtree "modules/dev/advanced_help"]
+	url = https://github.com/drupalprojects/advanced_help.git
+	path = modules/dev/advanced_help
+	branch = 7.x-1.x
 
 [subtree "modules/dev/backup_migrate"]
 	url = https://github.com/drupalprojects/backup_migrate.git

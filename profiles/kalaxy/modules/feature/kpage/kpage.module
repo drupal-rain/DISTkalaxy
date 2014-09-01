@@ -1,0 +1,35 @@
+<?php
+/**
+ * @file
+ * Code for the Kpage feature.
+ */
+
+include_once 'kpage.features.inc';
+
+/**
+ * A temporary function to create placeholder pages.
+ *
+ * @todo
+ */
+function kpage_generate_placeholder() {
+  $pages = array(
+    'About', // About Us
+    'Contact', // Contact Us
+    'Advertise', // Advertise
+    'Support', // Help
+    'User Agreement', // Terms of Use
+    'Privacy Policy', // Privacy
+  );
+  $pages += array_fill(6, 4, 'Page Placeholder');
+
+  foreach ($pages as $page) {
+    $node = new stdClass();
+    $node->type = 'kpage';
+    $node->title = $page;
+    $node->language = 'und';
+    $node->uid = 1;
+    $node->status = NODE_NOT_PUBLISHED;
+    $node = node_submit($node);
+    node_save($node);
+  }
+}

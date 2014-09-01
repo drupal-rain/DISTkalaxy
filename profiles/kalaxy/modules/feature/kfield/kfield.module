@@ -1,0 +1,141 @@
+<?php
+/**
+ * @file
+ * Drupal module main file.
+ */
+
+function kfield_add_field_body($entity_type, $bundle, $label = 'Body') {
+  $field_name = 'field_body';
+  $field = field_info_field($field_name);
+  $instance = field_info_instance($entity_type, $field_name, $bundle);
+  if (empty($field)) {
+    $field = array(
+      'field_name' => $field_name,
+      'type' => 'text_with_summary',
+      'entity_types' => array($entity_type),
+      'settings' => array(
+        'uri_scheme' => variable_get('file_default_scheme', 'public'),
+        'default_image' => 0,
+      ),
+    );
+    $field = field_create_field($field);
+  }
+  if (empty($instance)) {
+    $instance = array(
+      'field_name' => $field_name,
+      'entity_type' => $entity_type,
+      'bundle' => $bundle,
+      'label' => $label,
+      'widget' => array('type' => 'text_textarea_with_summary'),
+      'settings' => array('display_summary' => TRUE),
+      'display' => array(
+        'default' => array(
+          'label' => 'hidden',
+          'type' => 'text_default',
+        ),
+        'teaser' => array(
+          'label' => 'hidden',
+          'type' => 'text_summary_or_trimmed',
+        ),
+      ),
+    );
+    $instance = field_create_instance($instance);
+  }
+
+  return $instance;
+}
+
+function kfield_add_field_file($entity_type, $bundle, $label = 'File') {
+  $field_name = 'field_file';
+  $field = field_info_field($field_name);
+  $instance = field_info_instance($entity_type, $field_name, $bundle);
+  if (empty($field)) {
+    $field = array(
+      'field_name' => $field_name,
+      'type' => 'file',
+      'entity_types' => array($entity_type),
+      'cardinality' => -1,
+      'settings' => array(
+        'display_field' => 1, // On/Off option to display this file.
+        'display_default' => 1, // Display this field.
+        'uri_scheme' => variable_get('file_default_scheme', 'public'),
+      ),
+    );
+    $field = field_create_field($field);
+  }
+  if (empty($instance)) {
+    $instance = array(
+      'field_name' => $field_name,
+      'entity_type' => $entity_type,
+      'bundle' => $bundle,
+      'label' => $label,
+      'widget' => array('type' => 'file_generic'),
+      'settings' => array(
+        'file_extensions' => 'txt',
+        'file_directory' => '',
+        'max_filesize' => '',
+        'description_field' => 0,
+      ),
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'type' => 'file_default',
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'type' => 'file_default',
+        ),
+      ),
+    );
+    $instance = field_create_instance($instance);
+  }
+
+  return $instance;
+}
+
+
+function kfield_add_field_image($entity_type, $bundle, $label = 'Image') {
+  $field_name = 'field_image';
+  $field = field_info_field($field_name);
+  $instance = field_info_instance($entity_type, $field_name, $bundle);
+  if (empty($field)) {
+    $field = array(
+      'field_name' => $field_name,
+      'type' => 'image',
+      'entity_types' => array($entity_type),
+    );
+    $field = field_create_field($field);
+  }
+  if (empty($instance)) {
+    $instance = array(
+      'field_name' => $field_name,
+      'entity_type' => $entity_type,
+      'bundle' => $bundle,
+      'label' => $label,
+      'widget' => array('type' => 'image_image'),
+      'settings' => array(
+        'file_extensions' => 'png gif jpg jpeg',
+        'file_directory' => '',
+        'max_filesize' => '',
+        'alt_field' => 0,
+        'title_field' => 0,
+        'max_resolution' => '',
+        'min_resolution' => '',
+        'default_image' => 0,
+      ),
+      'display' => array(
+        'default' => array(
+          'label' => 'hidden',
+          'type' => 'image',
+        ),
+        'teaser' => array(
+          'label' => 'hidden',
+          'type' => 'image',
+        ),
+      ),
+    );
+    $instance = field_create_instance($instance);
+  }
+
+  return $instance;
+}
