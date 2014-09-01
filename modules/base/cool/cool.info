@@ -1,0 +1,5 @@
+name = Common Object Oriented Library
+description = Classes and helpers to serve as a base for Minka suite of modules
+core = 7.x
+php = 5.3
+dependencies[] = xautoload

@@ -1,0 +1,5 @@
+name = COOL Examples
+description = Example implementations for COOL module
+core = 7.x
+php = 5.3
+dependencies[] = cool

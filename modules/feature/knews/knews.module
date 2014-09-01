@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Knews feature.
+ */
+
+include_once 'knews.features.inc';
