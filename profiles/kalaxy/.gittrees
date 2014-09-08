@@ -11,6 +11,11 @@
 	path = modules/base/admin_menu
 	branch = 7.x-3.x
 
+[subtree "modules/base/context"]
+	url = https://github.com/drupalprojects/context.git
+	path = modules/base/context
+	branch = 7.x-3.x
+
 [subtree "modules/base/cool"]
 	url = https://github.com/drupalprojects/cool.git
 	path = modules/base/cool
@@ -79,6 +84,11 @@
 [subtree "modules/base/globalredirect"]
 	url = https://github.com/drupalprojects/globalredirect.git
 	path = modules/base/globalredirect
+	branch = 7.x-1.x
+
+[subtree "modules/base/inline_entity_form"]
+	url = https://github.com/drupalprojects/inline_entity_form.git
+	path = modules/base/inline_entity_form
 	branch = 7.x-1.x
 
 [subtree "modules/base/libraries"]
@@ -166,6 +176,11 @@
 	path = modules/base/strongarm
 	branch = 7.x-2.x
 
+[subtree "modules/base/term_reference_tree"]
+	url = https://github.com/drupalprojects/term_reference_tree.git
+	path = modules/base/term_reference_tree
+	branch = 7.x-1.x
+
 [subtree "modules/base/token"]
 	url = https://github.com/drupalprojects/token.git
 	path = modules/base/token
@@ -180,6 +195,11 @@
 	url = https://github.com/drupalprojects/url.git
 	path = modules/base/url
 	branch = 7.x-1.x
+
+[subtree "modules/base/variable"]
+	url = https://github.com/drupalprojects/variable.git
+	path = modules/base/variable
+	branch = 7.x-2.x
 
 [subtree "modules/base/views"]
 	url = https://github.com/drupalprojects/views.git
