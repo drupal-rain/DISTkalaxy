@@ -1,0 +1,727 @@
+<?php
+
+/**
+ * @file
+ * eck_extras module file.
+ */
+
+// -----------------------------------------------------------------------------
+// Global constants
+
+/**
+ * @deprecated
+ * Define the published status.
+ */
+//define('ECK_PUBLISHED_YES', 0x01);
+
+/**
+ * @deprecated
+ * Define the unpublished status.
+ */
+//define('ECK_PUBLISHED_NO', 0x00);
+
+// -----------------------------------------------------------------------------
+// General hooks
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function eck_extras_ctools_plugin_directory($owner, $plugin_type) {
+  if (in_array($owner, array('ctools', 'eck')) && in_array($plugin_type, array('arguments', 'property_behavior'))) {
+    return $owner . '/' . $plugin_type;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// General functions, utilities
+
+/**
+ * Get the entity types of eck module.
+ */
+function eck_extras_get_entity_types($only_types = FALSE) {
+  $eck_entity_types = array();
+  foreach (EntityType::loadAll() as $eck_entity_type) {
+    if ($only_types) {
+      $eck_entity_types[] = $eck_entity_type->name;
+    }
+    else {
+      foreach (Bundle::loadByEntityType($eck_entity_type) as $eck_bundle) {
+        $eck_entity_types[$eck_entity_type->name][] = $eck_bundle->name;
+      }
+    }
+  }
+
+  return $eck_entity_types;
+}
+
+/**
+ * Get the entity properties.
+ *
+ * Property layout:
+ * 'db column name' => array(
+ *   'label' => '',
+ *   'type' => '',
+ *   'behavior' => '',
+ * );
+ *
+ * Remember and be carefule.
+ * This value may be differ from the runtime value if being changed by user. 
+ *
+ * @todo Add drupal_static(), but remember to reset where real data is updated.
+ *
+ * @param EntityType|string $eck_entity_type
+ */
+function eck_extras_entity_get_properties($eck_entity_type, $property_behavior = NULL, $first_only = FALSE) {
+  if (is_object($eck_entity_type)) {
+    $properties = $eck_entity_type->properties;
+  }
+  else {
+    $properties = EntityType::loadByName($eck_entity_type)->properties;
+  }
+
+  // If NULL, will return all.
+  if ($property_behavior) {
+    // Prepare an empty return.
+    $properties_tmp = $properties;
+    $properties = array();
+    foreach ($properties_tmp as $name => $property) {
+      if (ktools_string_compare($property['behavior'], $property_behavior)) {
+        $properties[$name] = $property;
+        if ($first_only) {
+          return $property;
+        }
+      }
+    }
+  }
+
+  return $properties;
+}
+
+/**
+ * Check if the entity has property_behavior.
+ *
+ * @param EntityType|string $eck_entity_type
+ */
+function eck_extras_entity_check_property_behavior($eck_entity_type, $property_behavior = NULL) {
+  $properties = eck_extras_entity_get_properties($eck_entity_type, $property_behavior);
+  if (count($properties) > 0) {
+    return TRUE;
+  }
+
+  return FALSE;
+}
+
+/**
+ * Get bundle config.
+ */
+function eck_extras_get_bundle_config($eck_entity_type, $eck_bundle, $key = NULL) {
+  $config = Bundle::loadByMachineName("{$eck_entity_type}_{$eck_bundle}")->config;
+  // Only return setted key.
+  if (isset($key)) {
+    return isset($config[$key]) ? $config[$key] : NULL;
+  }
+  return $config;
+}
+
+/**
+ * Get bundle config by Entity object.
+ *
+ * @see eck_extras_get_bundle_config().
+ */
+function eck_extras_entity_get_bundle_config(Entity $entity, $key = NULL) {
+  return eck_extras_get_bundle_config($entity->entityType(), $entity->bundle(), $key);
+}
+
+/**
+ * Get a list options of defined entity types.
+ */
+function eck_extras_entity_type_options() {
+  return KtoolsEntity::typeOptions(); 
+}
+
+/**
+ * Load an entity by 'name'.
+ */
+function eck_extras_load_by_name($eck_entity_type, $name) {
+  $entities = entity_property_query($eck_entity_type, 'name', $name);
+  if (count($entities)) {
+    return reset($entities);
+  }
+
+  return NULL;
+}
+
+// -----------------------------------------------------------------------------
+// ECK property_behavior callbacks, helpers
+
+/**
+ * Callback function for Name property.
+ */
+function eck_extras_name_exists($value, $element, &$form_state) {
+  $entity = $form_state['values']['entity'];
+  $property = $element['#name'];
+  $value = $element['#value'];
+  $result = db_select("eck_{$entity->entityType()}", 't')
+    ->fields('t', array('id'))
+    ->condition("{$property}", $value, '=')
+    ->execute()
+    ->fetchField();
+  if (!empty($result)) {
+    return TRUE;
+  }
+
+  return FALSE;
+}
+
+/**
+ * Get type specified property as name source options. 
+ */
+function eck_extras_name_source_options($eck_entity_type) {
+  $properties = eck_extras_entity_get_properties($eck_entity_type);
+  $options = array();
+  $options[''] = t('-- None --');
+  foreach ($properties as $name => $property) {
+    if ($property['type'] == 'text' && $property['behavior'] != 'name') {
+      $options[$name] = t('!label', array('!label' => $property['label']));
+    }
+  }
+
+  return $options; 
+}
+
+/**
+ * Return the HTML title from an URL.
+ *
+ * @param string $url
+ *   An URL to request with drupal_http_request().
+ *
+ * @return string
+ *   The HTML title of the URL if found.
+ */
+function eck_extras_url_fetch_title($url) {
+  $request = drupal_http_request($url);
+  if (empty($request->error) && $request->code == 200 && !empty($request->data)) {
+    if (preg_match('!<title>(.*?)</title>!iu', $request->data, $matches)) {
+      // Title tags should be encoded, but we want the raw value.
+      return decode_entities($matches[1]);
+    }
+  }
+
+  return '';
+}
+
+// -----------------------------------------------------------------------------
+// ECK settings
+
+/**
+ * Implements hook_eck_default_properties().
+ */
+function eck_extras_eck_default_properties() {
+  $default_properties = array();
+  /*
+   $default_properties['published'] = array(
+       'label' => 'Published',
+       'type' => 'integer',
+       'behavior' => 'published',
+   );
+  */
+  $default_properties['name'] = array(
+    'label' => 'Name',
+    'type' => 'text',
+    'behavior' => 'name',
+  );
+
+  return $default_properties;
+}
+
+/**
+ * Implements hook_eck_property_types().
+ *
+ * Provide type of schema settings.
+ */
+function eck_extras_eck_property_types() {
+  $types = array();
+
+  $types['usin'] = t('USIN');
+  $types['url'] = t('URL');
+  $types['longtext'] = t('Longtext');
+
+  return $types;
+}
+
+/**
+ * Implements hook_eck_property_type_schema_alter().
+ */
+function eck_extras_eck_property_type_schema_alter(&$schema, $type) {
+  switch ($type) {
+  	case 'usin':
+  	  $schema = array(
+	      'type' => 'char',
+	      'length' => 10,
+	      'not null' => TRUE,
+	      'default' => '',
+	      'description' => 'The Unique Standard Identification Number.',
+  	  );
+  	  break;
+  	case 'url':
+  	  $schema = array(
+    	  'type' => 'varchar',
+    	  // Maximum URLs length.
+    	  'length' => 2048,
+    	  'not null' => FALSE,
+    	  'sortable' => TRUE,
+    	  'description' => 'The web URL address.',
+  	  );
+  	  break;
+  	case 'longtext':
+  	  $schema = array(
+  	  	'type' => 'text',
+        'size' => 'big',
+        'not null' => FALSE,
+        'description' => 'Long text.',
+  	  );
+  	  break;
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Allow change label of the properties.
+ * @see eck__properties__form()
+ */
+function eck_extras_form_eck__properties__form_alter(&$form, &$form_state) {
+  $eck_entity_type = $form['entity_type']['#value'];
+  $form['eck_property_label'] = array(
+    '#type' => 'fieldset',
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#title' => t('Label of Property'),
+    '#description' => t('Change the label of the property.'),
+    '#weight' => 0,
+  );
+  $delta = 0;
+  foreach ($eck_entity_type->properties as $property_name => $property) {
+    $form['eck_property_label']['eck_property_label_' . $property_name] = array(
+      '#type' => 'textfield',
+      '#size' => 60,
+      '#title' => t("@name's Label", array('@name' => $property_name)),
+      '#default_value' => $property['label'],
+      '#weight' => $delta,
+    );
+    $delta++;
+  }
+  $form['#submit'][] = 'eck_extras_form_eck__properties__form_alter_submit';
+}
+
+/**
+ * Submit function for eck_extras_form_eck__properties__form_alter().
+ */
+function eck_extras_form_eck__properties__form_alter_submit($form, &$form_state) {
+  $eck_entity_type_obj = $form_state['values']['entity_type'];
+  // Due to overload magic __get(), set(). Can't directly change.
+  $properties = $eck_entity_type_obj->properties;
+  $changes = 0;
+  foreach ($properties as $property_name => $property) {
+    if (
+      isset($form_state['values']['eck_property_label_' . $property_name])
+      && $property['label'] != $form_state['values']['eck_property_label_' . $property_name]
+    ) {
+      $properties[$property_name]['label'] = $form_state['values']['eck_property_label_' . $property_name];
+      $changes++;
+    }
+  }
+  // Only save if has change.
+  if ($changes > 0) {
+    $eck_entity_type_obj->properties = $properties;
+    $eck_entity_type_obj->save();
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Add configuration to bundle edit form.
+ *
+ * @todo Is there a hook for better implementation?
+ */
+function eck_extras_form_eck__bundle__edit_form_alter(&$form, &$form_state, $form_id) {
+  module_load_include('inc', 'eck_extras', 'eck_extras.admin');
+  $eck_entity_type = $form['entity_type']['#value']->name;
+  $eck_bundle = $form['bundle']['#value']->name;
+
+  $form = eck_extras_bundle_edit_form($form, $form_state, $eck_entity_type, $eck_bundle);
+
+  return $form;
+}
+
+/**
+ * Implements hook_eck_entity_type_insert().
+ */
+function eck_extras_eck_entity_type_insert(Entitytype $eck_entity_type_obj) {
+  _eck_extras_entity_type_property_behavior_save($eck_entity_type_obj);
+}
+
+/**
+ * Implements hook_eck_entity_type_update().
+ */
+function eck_extras_eck_entity_type_update(Entitytype $eck_entity_type_obj) {
+  _eck_extras_entity_type_property_behavior_save($eck_entity_type_obj);
+}
+
+/**
+ * Helper function to update db table of entity for property_behavior.
+ */
+function _eck_extras_entity_type_property_behavior_save(Entitytype $eck_entity_type_obj) {
+  // Add unique index to db table for 'name', 'usin'.
+  $propertity_behaviors = array('name', 'usin');
+  $table = 'eck_' . $eck_entity_type_obj->name;
+  // This is runtime value, i.e. it will be different from eck_extras_entity_get_properties($eck_entity_type_obj->name).
+  $properties = $eck_entity_type_obj->properties;
+  // Add new.
+  foreach ($properties as $column => $property) {
+    if (in_array($property['behavior'], $propertity_behaviors)) {
+      if (!db_index_exists($table, $property['behavior'])) {
+        db_add_unique_key($table, $property['behavior'], array($column));
+      }
+    }
+  }
+  // Delete old.
+  foreach ($propertity_behaviors as $propertity_behavior) {
+    if (db_index_exists($table, $propertity_behavior) && !eck_extras_entity_check_property_behavior($eck_entity_type_obj->name)) {
+      db_drop_index($table, $propertity_behavior);
+    }
+  }
+}
+
+// -----------------------------------------------------------------------------
+// ECK entity
+
+/**
+ * Implements hook_field_extra_fields().
+ */
+function eck_extras_field_extra_fields() {
+  $fields = array();
+  $eck_entity_types = eck_extras_get_entity_types();
+  foreach ($eck_entity_types as $eck_entity_type => $eck_entity_type_bundles) {
+    foreach ($eck_entity_type_bundles as $eck_bundle) {
+      $fields[$eck_entity_type][$eck_bundle]['form']['eck_path'] = array(
+        'label' => t('Path Alias'),
+        'description' => t('Set the path alias of this entity.'),
+        'weight' => 100,
+      );
+      // If the entity implements the specific property behavior.
+      $properties_plugin_info = ctools_get_plugins('eck', 'property_behavior');
+      foreach (EntityType::loadByName($eck_entity_type)->properties as $property_name => $property) {
+        // Add to form if the property behavior implements 'default_widget'.
+        if (isset($properties_plugin_info[$property['behavior']]['default_widget'])) {
+          $fields[$eck_entity_type][$eck_bundle]['form'][$property_name] = array(
+            'label' => t($property['label']),
+            'description' => t('Property @property_name', array('@property_name' => $property_name)),
+            'weight' => 0,
+          );
+        }
+        // Add display if the property behavior implements 'default_formatter'.
+        if (isset($properties_plugin_info[$property['behavior']]['default_formatter'])) {
+          $fields[$eck_entity_type][$eck_bundle]['display'][$property_name] = array(
+            'label' => t($property['label']),
+            'description' => t('Property @property_name', array('@property_name' => $property_name)),
+            'weight' => 0,
+          );
+        }
+      }
+    }
+  }
+
+  return $fields;
+}
+
+/**
+ * Implements hook_field_attach_form().
+ */
+function eck_extras_field_attach_form($entity_type, $entity, &$form, &$form_state, $langcode) {
+  $eck_entity_types = eck_extras_get_entity_types();
+  if (in_array($entity_type, array_keys($eck_entity_types))) {
+    if (isset($entity->is_new) && $entity->is_new) {
+      // Source.
+      $entity_path = '';
+      // Old alias.
+      $entity_path_default = '';
+    }
+    else {
+      $entity_uri = $entity->uri();
+      $entity_path = $entity_uri['path'];
+      $entity_path_alias = drupal_get_path_alias($entity_path, $langcode);
+      // If it has a alias already, show it.
+      if ($entity_path_alias != $entity_path) {
+        $entity_path_default = $entity_path_alias;
+      }
+      else {
+        $entity_path_default = '';
+      }
+    }
+    $options = bundle::loadByMachineName("{$entity_type}_{$entity->bundle()}")->config;
+    $form['eck_path'] = array(
+      '#type' => 'fieldset',
+      '#collapsible' => TRUE,
+      '#collapsed' => empty($entity_path_default),
+      '#title' => t('Path Alias'),
+      '#description' => t('Set the path alias of this entity.'),
+      '#weight' => 100,
+      '#element_validate' => array('eck_extras_form_eck_path_validate'),
+    );
+    $form['eck_path']['eck_path_auto'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Auto Alias'),
+      '#description' => t('Whether use the preset pattern path alias of this bundle.'),
+      '#default_value' => isset($options['eck_path']['auto']) ? $options['eck_path']['auto'] : FALSE,
+      '#disabled' => empty($options['eck_path']['auto']),
+      '#weight' => 0,
+    );
+    $form['eck_path']['eck_path_alias'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Path Alias'),
+      '#description' => t('Set the path alias of this entity.'),
+      '#size' => 60,
+      '#default_value' => $entity_path_default,
+      '#weight' => 1,
+    );
+    // If is_new, may only save as empty ''.
+    $form['eck_path']['eck_path_old_alias'] = array(
+      '#type' => 'value',
+      '#value' => $entity_path_default,
+    );
+    $form['eck_path']['eck_path_source'] = array(
+      '#type' => 'value',
+      '#value' => $entity_path,
+    );
+  }
+}
+
+/**
+ * Form validate callback for eck_path, add value to the $entity object.
+ */
+function eck_extras_form_eck_path_validate($element, &$form_state, $complete_form) {
+  $entity = $form_state['values']['entity'];
+  $auto = (bool) $form_state['values']['eck_path_auto'];
+  $alias = $form_state['values']['eck_path_alias'];
+  $old_alias = $form_state['values']['eck_path_old_alias'];
+  $source = $form_state['values']['eck_path_source'];
+  // Structure of eck_path property.
+  $entity->eck_path = array(
+    'auto' => $auto,
+    'alias' => trim($alias),
+    'old alias' => $old_alias,
+    'source' => $source);
+  // Validate the manual path setting.
+  // Check if the wanted alias already being used.
+  if (!$auto && $alias != $old_alias) {
+    global $language;
+    $langcode = $language->language;
+    $query = db_select('url_alias', 'ua')
+      ->fields('ua', array('pid'))
+      ->condition('ua.source', $old_alias, '<>')
+      ->condition('ua.alias', $alias, '=')
+      ->condition('ua.language', array($langcode, LANGUAGE_NONE), 'IN')
+      ->orderBy('ua.language', 'DESC')
+      ->orderBy('ua.pid', 'DESC')
+      ->range(0, 1)
+      ->execute();
+    $pid = $query->fetchField();
+    if (!empty($pid)) {
+      form_set_error('eck_path_alias', t('This path alias is being used.'));
+      return;
+    }
+  }
+}
+
+/**
+ * Helper function for updating the path of the entity by eck_path.
+ */
+function _eck_extras_entity_path_update($entity, $op = 'update') {
+  $options = $options = bundle::loadByMachineName("{$entity->entityType()}_{$entity->bundle()}")->config;
+  $langcode = isset($entity->language) ? $entity->language : LANGUAGE_NONE;
+  // Need to add back real value of 'source' and 'old alias' if it's new entity.
+  if ($op == 'insert') {
+    $entity_uri = $entity->uri();
+    $entity->eck_path['source'] = $entity_uri['path'];
+    $entity->eck_path['old alias'] = drupal_get_path_alias($entity_uri['path'], $langcode);
+  }
+  // Auto path alias.
+  if (isset($options['eck_path']) && $options['eck_path']['auto'] && $entity->eck_path['auto']) {
+    ctools_include('pathauto', 'pathauto', FALSE);
+    $data = array($entity->entityType() => $entity);
+
+    eck_extras_pathauto_create_alias($op, $options['eck_path']['pattern'], $entity->eck_path['source'], $data, $langcode);
+  }
+  // Manual path alias.
+  else {
+    // Do nothing if the same. alias == old alias.
+    // If empty alias or same as the source, delete it.
+    if (empty($entity->eck_path['alias']) || $entity->eck_path['alias'] == $entity->eck_path['source']) {
+      path_delete($entity->eck_path['old alias']);
+    }
+    // Normal update.
+    elseif ($entity->eck_path['alias'] != $entity->eck_path['old alias']) {
+      $path = array(
+        'source' => $entity->eck_path['source'],
+        'alias' => $entity->eck_path['alias']);
+      path_save($path);
+    }
+  }
+}
+
+/**
+ * Helper function to create a path alias, borrow from pathauto.
+ *
+ * @see pathauto_create_alias()
+ */
+function eck_extras_pathauto_create_alias($op, $pattern, $source, $data, $language = LANGUAGE_NONE) {
+  // Special handling when updating an item which is already aliased.
+  $existing_alias = NULL;
+  if ($op == 'update') {
+    if ($existing_alias = _pathauto_existing_alias_data($source, $language)) {
+      switch (variable_get('pathauto_update_action', PATHAUTO_UPDATE_ACTION_DELETE)) {
+        case PATHAUTO_UPDATE_ACTION_NO_NEW:
+          // If an alias already exists, and the update action is set to
+          // do nothing, then gosh-darn it, do nothing.
+          return '';
+      }
+    }
+  }
+  // Replace any tokens in the pattern. Uses callback option to
+  // clean replacements. No sanitization.
+  $alias = token_replace($pattern, $data, array(
+    'sanitize' => FALSE,
+    'clear' => TRUE,
+    'callback' => 'pathauto_clean_token_values',
+    'language' => (object) array('language' => $language),
+    'pathauto' => TRUE));
+  // Check if the token replacement has not actually replaced any values. If
+  // that is the case, then stop because we should not generate an alias.
+  // @see token_scan()
+  $pattern_tokens_removed = preg_replace('/\[[^\s\]:]*:[^\s\]]*\]/', '', $pattern);
+  if ($alias === $pattern_tokens_removed) {
+    return '';
+  }
+  $alias = pathauto_clean_alias($alias);
+
+  // Allow other modules to alter the alias as pathauto.
+  $context = array(
+    'op' => $op,
+    'source' => &$source,
+    'data' => $data,
+    'language' => &$language,
+    'pattern' => $pattern,
+  );
+  drupal_alter('eck_extras_pathauto_alias', $alias, $context);
+
+  // If we have arrived at an empty string, discontinue.
+  if (!drupal_strlen($alias)) {
+    return '';
+  }
+  // If the alias already exists, generate a new, hopefully unique, variant.
+  $original_alias = $alias;
+  pathauto_alias_uniquify($alias, $source, $language);
+  if ($original_alias != $alias) {
+    // Alert the user why this happened.
+    _pathauto_verbose(t('The automatically generated alias %original_alias conflicted with an existing alias. Alias changed to %alias.', array(
+      '%original_alias' => $original_alias,
+      '%alias' => $alias)), $op);
+  }
+  // Return the generated alias if requested.
+  if ($op == 'return') {
+    return $alias;
+  }
+  // Build the new path alias array and send it off to be created.
+  $path = array(
+    'source' => $source,
+    'alias' => $alias,
+    'language' => $language,
+  );
+  $path = _pathauto_set_alias($path, $existing_alias, $op);
+
+  return $path;
+}
+
+/**
+ * Implements hook_entity_insert().
+ */
+function eck_extras_entity_insert($entity, $type) {
+  // eck_path
+  if (isset($entity->eck_path)) {
+    _eck_extras_entity_path_update($entity, 'insert');
+  }
+}
+
+/**
+ * Implements hook_entity_update().
+ */
+function eck_extras_entity_update($entity, $type) {
+  if (isset($entity->eck_path)) {
+    _eck_extras_entity_path_update($entity, 'update');
+  }
+}
+
+/**
+ * Implements hook_entity_delete().
+ */
+function eck_extras_entity_delete($entity, $type) {
+  // Delete the saved path alias if exists.
+  $eck_entity_types = eck_extras_get_entity_types();
+  if (in_array($type, array_keys($eck_entity_types))) {
+    $entity_uri = $entity->uri();
+    path_delete(array('source' => $entity_uri['path']));
+  }
+}
+
+/**
+ * Implements hook_entity_view().
+ */
+function eck_extras_entity_view($entity, $type, $view_mode, $langcode) {
+  $eck_entity_types = eck_extras_get_entity_types();
+  // Only deal with eck entity types.
+  if (in_array($type, array_keys($eck_entity_types))) {
+    $config = bundle::loadByMachineName("{$type}_{$entity->bundle()}")->config;
+    // Add all 'default_formatter' to content build if not exist yet.
+    // Others could implement hook_entity_view_alter() to change it.
+    $eck_entity_type = EntityType::loadByName($type);
+    $formatters = eck_property_behavior_invoke_plugin($eck_entity_type, 'default_formatter',
+      array('entity' => $entity));
+    $property_view = array();
+    foreach ($formatters as $property => $formatter) {
+      $property_view[$property] = $formatter;
+    }
+    $entity->content += $property_view;
+
+    // $options - title.
+    // @todo Remove this
+    if (!empty($config['title']) && isset($entity->title)) {
+      $entity->title = token_replace($config['title'], array($type => $entity));
+    }
+    if ($view_mode == 'full') {
+      // Can do somehing for 'full' view mode.
+      if (!isset($entity->title) && !empty($config['title'])) {
+        drupal_set_title(token_replace($config['title'], array($type => $entity)));
+      }
+      // Temporary solution of published - property behavior.
+      // @todo Untill fix http://drupal.org/node/1694798.
+      // @deprecated
+      /*
+      if (isset($entity->published) && $entity->published == ECK_PUBLISHED_NO) {
+        $entity->content['#access'] = user_access('eck administer ' . $entity->entityType() . ' ' . $entity->bundle() . ' entities');
+      }
+      */
+    }
+    else {
+      // Temporary solution of published - property behavior.
+      // @todo Untill fix http://drupal.org/node/1694798.
+      // @deprecated
+      /*
+      if (isset($entity->published) && $entity->published == ECK_PUBLISHED_NO) {
+        $entity->content['#access'] = user_access('eck administer ' . $entity->entityType() . ' ' . $entity->bundle() . ' entities');
+      }
+      */
+    }
+  }
+}

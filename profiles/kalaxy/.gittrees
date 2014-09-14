@@ -24,7 +24,7 @@
 [subtree "modules/base/ctools"]
 	url = https://github.com/drupalprojects/ctools.git
 	path = modules/base/ctools
-	branch = 7.x-1.4
+	branch = 7.x-1.x
 
 [subtree "modules/base/date"]
 	url = https://github.com/drupalprojects/date.git
@@ -39,6 +39,11 @@
 [subtree "modules/base/eck"]
 	url = https://github.com/drupalprojects/eck.git
 	path = modules/base/eck
+	branch = 7.x-2.x
+
+[subtree "modules/base/eck_extras"]
+	url = https://github.com/drupal-rain/eck_extras.git
+	path = modules/base/eck_extras
 	branch = 7.x-2.x
 
 [subtree "modules/base/entity"]
@@ -91,6 +96,11 @@
 	path = modules/base/inline_entity_form
 	branch = 7.x-1.x
 
+[subtree "modules/base/ktools"]
+	url = https://github.com/drupal-rain/ktools.git
+	path = modules/base/ktools
+	branch = 7.x-1.x
+
 [subtree "modules/base/libraries"]
 	url = https://github.com/drupalprojects/libraries.git
 	path = modules/base/libraries
@@ -126,6 +136,21 @@
 	path = modules/base/og
 	branch = 7.x-2.7
 
+[subtree "modules/base/options_element"]
+	url = https://github.com/drupalprojects/options_element.git
+	path = modules/base/options_element
+	branch = 7.x-1.x
+
+[subtree "modules/base/panelizer"]
+	url = https://github.com/drupalprojects/panelizer.git
+	path = modules/base/panelizer
+	branch = 7.x-3.x
+
+[subtree "modules/base/panels"]
+	url = https://github.com/drupalprojects/panels.git
+	path = modules/base/panels
+	branch = 7.x-3.x
+
 [subtree "modules/base/pathauto"]
 	url = https://github.com/drupalprojects/pathauto.git
 	path = modules/base/pathauto
@@ -135,6 +160,11 @@
 	url = https://github.com/drupalprojects/pathologic.git
 	path = modules/base/pathologic
 	branch = 7.x-2.12
+
+[subtree "modules/base/pm_existing_pages"]
+	url = https://github.com/drupalprojects/pm_existing_pages.git
+	path = modules/base/pm_existing_pages
+	branch = 7.x-1.x
 
 [subtree "modules/base/redirect"]
 	url = https://github.com/drupalprojects/redirect.git
@@ -175,11 +205,6 @@
 	url = https://github.com/drupalprojects/strongarm.git
 	path = modules/base/strongarm
 	branch = 7.x-2.x
-
-[subtree "modules/base/term_reference_tree"]
-	url = https://github.com/drupalprojects/term_reference_tree.git
-	path = modules/base/term_reference_tree
-	branch = 7.x-1.x
 
 [subtree "modules/base/token"]
 	url = https://github.com/drupalprojects/token.git
@@ -353,9 +378,9 @@
 	path = modules/common/elements
 	branch = 7.x-1.x
 
-[subtree "modules/dev/ktools"]
-	url = https://github.com/drupal-rain/ktools.git
-	path = modules/dev/ktools
+[subtree "modules/dev/form_builder"]
+	url = https://github.com/drupalprojects/form_builder.git
+	path = modules/dev/form_builder
 	branch = 7.x-1.x
 
 [subtree "modules/dev/registry_rebuild"]
