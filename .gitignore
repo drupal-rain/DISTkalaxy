@@ -1,6 +1,6 @@
-
 # Ignore .idea, IDE like PHPStorm
 .idea
 
-# Ignore '_' prefix
-_*
+# 
+_Lib
+_shell
