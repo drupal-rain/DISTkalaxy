@@ -1,0 +1,10 @@
+name = Affilink
+description = Provide affilink feature to deal with normal affiliate link redirect task.
+core = 7.x
+version = 7.x-0.1
+package = Ktools
+
+dependencies[] = redirect
+
+files[] = views/affilink_handler_field_redirect_affilink_node.inc
+files[] = views/affilink_handler_argument_redirect_affilink_node.inc

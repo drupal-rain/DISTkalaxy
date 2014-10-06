@@ -1,0 +1,11 @@
+#
+# Apache/PHP/Drupal settings:
+#
+
+AuthUserFile .htpasswd
+AuthType Basic
+AuthName "Drupal Authenticate"
+
+<Files "modules/dev/registry_rebuild/registry_rebuild.php">
+  Require valid-user
+</Files>

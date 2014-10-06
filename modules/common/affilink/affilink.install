@@ -1,0 +1,49 @@
+<?php
+
+/**
+ * @implements hook_schema().
+ */
+function affilink_schema() {
+  $schema['affilink'] = array();
+
+  $schema['affilink'] = array(
+    'description' => 'Bridge between entity and redirect.',
+    'fields' => array(
+      'rid' => array(
+        'description' => '{redirect}.rid.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'entity_type' => array(
+        'description' => 'Entity type.',
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'entity_id' => array(
+        'description' => 'Entity id.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+    ),
+    'foreign keys' => array(
+      'affilink_redirect' => array(
+        'table' => 'redirect',
+        'columns' => array('rid' => 'rid'),
+      ),
+    ),
+    'primary key' => array('rid'),
+    'unique keys' => array(
+      'affilink_entity_redirect' => array('entity_type', 'entity_id', 'rid'),
+    ),
+    'indexes' => array(
+      'affilink_entity' => array('entity_type', 'entity_id'),
+      'affilink_redirect' => array('rid'),
+    ),
+  );
+
+  return $schema;
+}

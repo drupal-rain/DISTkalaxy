@@ -4,3 +4,8 @@ core = 7.x
 ; We use hook_system_theme_info() which was added in Drupal 7.11
 dependencies[] = system (>=7.11)
 files[] = tests/libraries.test
+
+version = "7.x-2.2+3-dev"
+core = "7.x"
+project = "libraries"
+datestamp = "1406514528"

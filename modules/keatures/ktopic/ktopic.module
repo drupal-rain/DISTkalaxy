@@ -1,0 +1,187 @@
+<?php
+/**
+ * @file
+ * Code for the Ktopic feature.
+ */
+
+include_once 'ktopic.features.inc';
+
+include_once 'ktopic.field.inc';
+include_once 'ktopic.info.callback.inc';
+
+include_once 'ktopic.ktype.inc';
+include_once 'ktopic.kdata.inc';
+
+
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function ktopic_ctools_plugin_directory($owner, $plugin_type) {
+  $owners = array('ctools', 'entityreference');
+  if (in_array($owner, $owners)) {
+    return $owner . '/' . $plugin_type;
+  }
+}
+
+// ----------------------------------------------------------------------------
+// hook_node_*().
+
+/**
+ *  Implements hook_node_info_alter().
+ */
+/*
+function ktopic_node_info_alter(&$items) {
+  $items['ktopic']['base'] = 'ktopic';
+}
+
+function ktopic_node_form($node, $form_state) {
+  return node_content_form($node, $form_state);
+}
+*/
+
+/**
+ *  Implements hook_node_insert().
+ */
+function ktopic_node_insert($node) {
+  ktopic_kdata_save($node);
+}
+
+/**
+ *  Implements hook_node_update().
+ */
+function ktopic_node_update($node) {
+  ktopic_kdata_save($node);
+}
+
+// Save kdata.nid to match the current referencing node<ktopic>.
+function ktopic_kdata_save($ktopic) {
+  if ($ktopic->type == 'ktopic') {
+    $kdatas = ktopic_get_kdatas_flat($ktopic);
+    foreach ($kdatas as $kdata) {
+      $kdata->nid = $ktopic->nid;
+      $kdata->created = $ktopic->created;
+      $kdata->changed = $ktopic->changed;
+      $kdata->save();
+    }
+  }
+}
+
+/**
+ * @implements hook_node_load().
+ */
+function ktopic_node_load($nodes, $types) {
+  if (array_search('ktopic', $types) === FALSE) {
+    return;
+  }
+
+  foreach ($nodes as $nid => $node) {
+    $ktypes = KtoolsEntityField::entityreferenceEntities('node', $node, 'field_ktopic_type', TRUE);
+
+    foreach ($ktypes as $tid => $ktype) {
+      $ktypes[$tid] = $ktype->name;
+    }
+    $nodes[$nid]->ktypes = $ktypes;
+  }
+}
+
+// ----------------------------------------------------------------------------
+// Ktopic Utility
+
+/**
+ * Load ktopic entity, node.
+ */
+function ktopic_load_by_name($name) {
+  $conds[] = array(
+    'column' => 'machine',
+    'value' => $name,
+    'operator' => '=',
+  );
+  $ids = KtoolsEntityField::queryEntities(KTOPIC_FIELD_NAME, $conds, 'node');
+
+  return node_load(reset($ids));
+}
+
+// Get the machine name of the node<ktopic>.
+function ktopic_get_name($ktopic) {
+  $lang = $ktopic->language;
+
+  return $ktopic->field_ktopic_name[$lang][0]['machine'];
+}
+
+// Check ktopic type.
+// @todo Support both id and name check.
+// function ktopic_is_ktype($types, $mode = NULL) {
+function ktopic_is_ktype($ktopic, $ktype) {
+  if ($ktopic->type != 'ktopic') {
+    return FALSE;
+  }
+
+  if (is_array($ktype)) {
+    if ($ktype == array_intersect($ktype, $ktopic->ktypes)) {
+      return TRUE;
+    }
+  }
+  else {
+    if (array_search($ktype, $ktopic->ktypes) !== FALSE) {
+      return TRUE;
+    }
+  }
+
+  return FALSE;
+}
+
+// Entity id indexed kdata entities.
+function ktopic_get_kdatas_flat($ktopic) {
+  $lang = entity_language('node', $ktopic);
+  $kdatas = array();
+  if ($ktopic->field_ktopic_data && $ktopic->field_ktopic_data[$lang]) {
+    $kdatas_id = array();
+    foreach ($ktopic->field_ktopic_data[$lang] as $value) {
+      $kdata_id = $value['target_id'];
+      $kdatas_id[] = $kdata_id;
+    }
+    $kdatas = entity_load('kdata', $kdatas_id);
+  }
+
+  return $kdatas;
+}
+
+// Kdata type indexed entities.
+function ktopic_get_kdatas($ktopic, $kdata_type = NULL) {
+  $lang = entity_language('node', $ktopic);
+  $kdatas = array();
+  if ($ktopic->field_ktopic_data && $ktopic->field_ktopic_data[$lang]) {
+    foreach ($ktopic->field_ktopic_data[$lang] as $value) {
+      $kdata_id = $value['target_id'];
+      $kdata = entity_load_single('kdata', $kdata_id);
+      $kdatas[$kdata->type] = $kdata;
+    }
+
+    if ($kdata_type) {
+      $kdatas = $kdatas[$kdata_type];
+    }
+  }
+
+  return $kdatas;
+}
+
+// Get the specific kdata<TYPE> by using entityreference field_ktopic_data.
+function ktopic_get_kdata($ktopic, $kdata_bundle) {
+  $lang = entity_language('node', $ktopic);
+  $kdatas = array();
+  if ($ktopic->field_ktopic_data && $ktopic->field_ktopic_data[$lang]) {
+    foreach ($ktopic->field_ktopic_data[$lang] as $delta => $value) {
+      $kdatas[$delta] = entity_load_single('kdata', $value['target_id']);
+    }
+    // Return the first match.
+    // So use UI to sort it up.
+    foreach ($kdatas as $kdata) {
+      if ($kdata->type == $kdata_bundle) {
+        return $kdata;
+      }
+    }
+  }
+
+  return NULL;
+}
