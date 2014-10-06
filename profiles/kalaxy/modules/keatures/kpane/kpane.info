@@ -1,0 +1,9 @@
+name = Kpane
+description = Panels panes feature.
+core = 7.x
+package = Keatures
+version = 7.x-0.2
+project = kpane
+dependencies[] = ctools
+dependencies[] = fieldable_panels_panes
+features[features_api][] = api:2

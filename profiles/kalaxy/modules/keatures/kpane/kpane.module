@@ -1,0 +1,270 @@
+<?php
+/**
+ * @file
+ * Code for the Kpane feature.
+ */
+
+include_once 'kpane.features.inc';
+
+// =============================================================================
+// Plugin
+
+/**
+ *  Implements hook_ctools_plugin_type().
+ */
+function kpane_ctools_plugin_type() {
+  return array(
+    'kpane' => array(
+      'load themes' => TRUE,
+    ),
+  );
+}
+
+/**
+ *  Implements hook_ctools_plugin_directory().
+ */
+function kpane_ctools_plugin_directory($owner, $plugin_type) {
+  if ($owner == 'kpane') {
+    return 'plugins/' . $plugin_type;
+  }
+}
+
+/**
+ * Wrapper for ctools_get_plugins().
+ */
+function kpane_kpane_get_plugins($id = NULL) {
+  ctools_include('plugins');
+  $plugins = ctools_get_plugins('kpane', 'kpane', $id);
+
+  return $plugins;
+}
+
+/**
+ * Get optional callback function of plugin.
+ */
+function kpane_kpane_get_function($id, $callback) {
+  ctools_include('plugins');
+  $function = ctools_plugin_load_function('kpane', 'kpane', $id, $callback);
+  if (!$function) {
+    $plugin = ctools_get_plugins('kpane', 'kpane', $id);
+    $function_tmp = $plugin['module'] . '_kpane_' . $id . '_' . str_replace(' ', '_', $callback);
+    if (function_exists($function_tmp)) {
+      $function = $function_tmp;
+    }
+  }
+
+  return $function;
+}
+
+// -----------------------------------------------------------------------------
+// Helper Functions
+
+/**
+ * Helper function for plugin.
+ */
+function _kpane_kpane_bundle_info($id) {
+  return array(
+    'label' => ucfirst($id),
+    'pane category' => t('Kpane'),
+    'pane top level' => FALSE, // set to true to make this show as a top level icon
+    //'pane icon' => '/path/to/custom/icon/for/this/pane.png',
+    'admin' => array(
+      'path' => 'admin/structure/fieldable-panels-panes/manage/%fieldable_panels_pane_type',
+      'bundle argument' => 4,
+      'real path' => 'admin/structure/fieldable-panels-panes/manage/' . $id,
+      'access arguments' => array('administer fieldable panels panes'),
+    ),
+  );
+}
+
+/**
+ * Helper function for plugin.
+ */
+function _kpane_kpane_theme_registry($id) {
+  $plugin = kpane_kpane_get_plugins($id);
+  $registry = array();
+  $registry['fieldable_panels_pane__' . $id] = array (
+    'base hook' => 'fieldable_panels_pane',
+    'render element' => 'elements',
+    'path' => $plugin['path'],
+    'template' => $id,
+  );
+
+  return $registry;
+}
+
+// =============================================================================
+//
+
+/**
+ *  Implements hook_entity_info_alter().
+ */
+function kpane_entity_info_alter(&$entity_info) {
+  $plugins = kpane_kpane_get_plugins();
+  foreach ($plugins as $id => $plugin) {
+    $callback = kpane_kpane_get_function($id, 'bundle info');
+    if ($callback) {
+      $entity_info['fieldable_panels_pane']['bundles'][$id] = $callback();
+    }
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function kpane_theme($existing, $type, $theme, $path) {
+  $registry['panels_pane__fieldable_panels_pane'] = array (
+    'base hook' => 'panels_pane',
+    'variables' => array('output' => array(), 'pane' => array(), 'display' => array()),
+    'path' => drupal_get_path('module', 'kpane') . '/templates',
+    'template' => 'panels-pane--fieldable-panels-pane',
+  );
+
+  // Give registry in order to provide templates in module level.
+  /*
+  $panes = array('pane_heading', 'pane_dividend', 'pane_feature');
+  foreach ($panes as $pane) {
+    $registry['fieldable_panels_pane__' . $pane] = array (
+      'base hook' => 'fieldable_panels_pane',
+      'render element' => 'elements',
+      'path' => drupal_get_path('module', 'kpane') . '/templates',
+      'template' => 'fieldable-panels-pane--' . str_replace('_', '-', $pane),
+    );
+  }
+  */
+
+  // Plugins Theme Registry
+  // Allow to add more than on item to the registry.
+  // Then in template preprocess, it could use settings information to add theme hook suggestion.
+  $plugins = kpane_kpane_get_plugins();
+  foreach ($plugins as $id => $plugin) {
+    $callback = kpane_kpane_get_function($id, 'theme registry');
+    if ($callback) {
+      $registry += $callback($existing, $type, $theme, $path);
+    }
+  }
+
+  return $registry;
+}
+
+/**
+ *  Implements hook_preprocess_HOOK().
+ */
+function kpane_preprocess_panels_pane(&$vars) {
+  if ($vars['pane']->type == 'fieldable_panels_pane') {
+    $fieldable_panels_pane = $vars['content']['#fieldable_panels_pane'];
+    $vars['theme_hook_suggestions'][] = 'panels_pane__fieldable_panels_pane__' . $fieldable_panels_pane->bundle;
+  }
+}
+
+/**
+ *  Implements hook_preprocess_HOOK().
+ */
+// @todo Study the preprocess() and process() jobs done by core modules.
+function kpane_preprocess_fieldable_panels_pane(&$vars) {
+  //dsm($vars);
+  $entity = $vars['elements']['#fieldable_panels_pane'];
+  // CSS Classes
+  // Settings: Use entity CSS class.
+  if (!$entity->settings['css']['entity_class']) {
+    foreach ($vars['classes_array'] as $key => $css_class) {
+      if ($css_class == 'fieldable-panels-pane') {
+        unset($vars['classes_array'][$key]);
+      }
+    }
+  }
+  // Settings: Use bundle CSS class.
+  if ($entity->settings['css']['bundle_class']) {
+    $vars['classes_array'][] = $entity->bundle;
+  }
+  // Settings: Add CSS classes.
+  if (!empty($entity->settings['css']['classes'])) {
+    $vars['classes_array'][] = check_plain($entity->settings['css']['classes']);
+  }
+
+  // Title
+  $vars['title'] = $entity->title;
+  if ($entity->link) {
+    $vars['title'] = l($vars['title'], $entity->path);
+  }
+
+  // pane_dividend
+  if ($entity->bundle == 'pane_dividend') {
+    $vars['classes_array'][] = 'clearfix';
+    $vars['attributes_array']['title'] = $entity->title;
+  }
+  // pane_heading
+  /*
+  if ($entity->bundle == 'pane_heading') {
+    $vars['tag'] = 'h' . $entity->field_pane_heading_tag['und'][0]['value'];
+  }
+  */
+  // pane_feature
+  if ($entity->bundle == 'pane_feature') {
+    //dsm($vars);
+  }
+
+  // Plugin Template Preprocess
+  $callback = kpane_kpane_get_function($entity->bundle, 'template preprocess');
+  if ($callback) {
+    $callback($vars, $entity);
+  }
+
+}
+
+/**
+ *  Implements hook_process_HOOK().
+ */
+function kpane_process_fieldable_panels_pane(&$vars) {
+  //dsm($vars);
+  $entity = $vars['elements']['#fieldable_panels_pane'];
+  // Plugin Template Process
+  $callback = kpane_kpane_get_function($entity->bundle, 'template preprocess');
+  if ($callback) {
+    $callback($vars, $entity);
+  }
+}
+
+/**
+ * Implements hook_fieldable_panels_panes_entity_settings_form_alter().
+ */
+function kpane_fieldable_panels_panes_entity_settings_form_alter(&$form, &$form_state) {
+  $entity = $form_state['entity'];
+  // No revision by default.
+  $form['revision']['revision']['#default_value'] = FALSE;
+  // Global Settings
+  // CSS
+  $form['settings']['css'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('CSS'),
+    '#collapsible' => TRUE,
+  );
+  $form['settings']['css']['entity_class'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Use entity CSS class'),
+    '#default_value' => $entity->settings['css']['entity_class'],
+  );
+  $form['settings']['css']['bundle_class'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Use bundle CSS class'),
+    '#default_value' => isset($entity->settings['css']['bundle_class']) ? $entity->settings['css']['bundle_class'] : TRUE,
+  );
+  $form['settings']['css']['classes'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Add CSS classes'),
+    '#default_value' => $entity->settings['css']['classes'],
+  );
+
+  // Plugin Settings
+  $id = $entity->bundle;
+  $callback = kpane_kpane_get_function($id, 'settings form');
+  if ($callback) {
+    $form['settings'][$id] = array(
+      '#type' => 'fieldset',
+      '#title' => t('@id Settings', array('@id' => $id)),
+      '#collapsible' => TRUE,
+    );
+    $form['settings'][$id] += $callback($form, $form_state);
+  }
+
+}

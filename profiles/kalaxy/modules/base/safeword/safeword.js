@@ -32,6 +32,7 @@
      */
     attach: function (context, settings) {
       var self = this;
+      if (!settings.machineName) return;
       $.each(settings.machineName, function (source_id, options) {
         var $source = $(source_id, context).addClass('machine-name-source');
         var $target = $(options.target, context).addClass('machine-name-target');

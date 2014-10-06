@@ -151,6 +151,11 @@
 	path = modules/base/panels
 	branch = 7.x-3.x
 
+[subtree "modules/base/panopoly_theme"]
+	url = https://github.com/drupalprojects/panopoly_theme.git
+	path = modules/base/panopoly_theme
+	branch = 7.x-1.x
+
 [subtree "modules/base/pathauto"]
 	url = https://github.com/drupalprojects/pathauto.git
 	path = modules/base/pathauto
@@ -182,9 +187,9 @@
 	branch = 7.x-2.7
 
 [subtree "modules/base/safeword"]
-	url = https://github.com/drupalprojects/safeword.git
+	url = https://github.com/drupal-issue/safeword.git
 	path = modules/base/safeword
-	branch = 7.x-1.x
+	branch = 2342103
 
 [subtree "modules/base/serial"]
 	url = https://github.com/drupalprojects/serial.git
@@ -244,6 +249,11 @@
 ###############################################################################
 # modules/common
 
+[subtree "modules/common/affilink"]
+	url = https://github.com/drupal-rain/affilink.git
+	path = modules/common/affilink
+	branch = 7.x-1.x
+
 [subtree "modules/common/crumbs"]
 	url = https://github.com/drupalprojects/crumbs.git
 	path = modules/common/crumbs
@@ -265,9 +275,9 @@
 	branch = 7.x-1.x
 
 [subtree "modules/common/filefield_paths"]
-	url = https://github.com/drupalprojects/filefield_paths.git
+	url = https://github.com/drupal-issue/filefield_paths.git
 	path = modules/common/filefield_paths
-	branch = 7.x-1.x
+	branch = 2103151
 
 [subtree "modules/common/filefield_sources"]
 	url = https://github.com/drupalprojects/filefield_sources.git
@@ -300,9 +310,9 @@
 	branch = 7.x-3.x
 
 [subtree "modules/common/subpathauto"]
-	url = https://github.com/drupalprojects/subpathauto.git
+	url = https://github.com/drupal-issue/subpathauto.git
 	path = modules/common/subpathauto
-	branch = 7.x-1.x
+	branch = 1814516
 
 [subtree "modules/common/taxonomy_manager"]
 	url = https://github.com/drupalprojects/taxonomy_manager.git
@@ -321,34 +331,6 @@
 
 ###############################################################################
 # modules/extra
-
-###############################################################################
-# modules/feature
-
-[subtree "modules/feature/kfield"]
-	url = https://github.com/drupal-rain/kfield.git
-	path = modules/feature/kfield
-	branch = 7.x-1.x
-
-[subtree "modules/feature/knews"]
-	url = https://github.com/drupal-rain/knews.git
-	path = modules/feature/knews
-	branch = 7.x-1.x
-
-[subtree "modules/feature/kpage"]
-	url = https://github.com/drupal-rain/kpage.git
-	path = modules/feature/kpage
-	branch = 7.x-1.x
-
-[subtree "modules/feature/ktopic"]
-	url = https://github.com/drupal-rain/ktopic.git
-	path = modules/feature/ktopic
-	branch = 7.x-1.x
-
-[subtree "modules/feature/ktopic_review"]
-	url = https://github.com/drupal-rain/ktopic_review.git
-	path = modules/feature/ktopic_review
-	branch = 7.x-1.x
 
 ###############################################################################
 # modules/dev
@@ -394,9 +376,57 @@
 	branch = 7.x-1.x
 
 ###############################################################################
-# themes/admin
+# modules/keatures
 
-[subtree "themes/admin/shiny"]
-	url = https://github.com/drupalprojects/shiny.git
-	path = themes/admin/shiny
+[subtree "modules/keatures/kfield"]
+	url = https://github.com/drupal-rain/kfield.git
+	path = modules/keatures/kfield
 	branch = 7.x-1.x
+
+[subtree "modules/keatures/knews"]
+	url = https://github.com/drupal-rain/knews.git
+	path = modules/keatures/knews
+	branch = 7.x-1.x
+
+[subtree "modules/keatures/kore"]
+	url = https://github.com/drupal-rain/kore.git
+	path = modules/keatures/kore
+	branch = 7.x-1.x
+
+[subtree "modules/keatures/kpane"]
+	url = https://github.com/drupal-rain/kpane.git
+	path = modules/keatures/kpane
+	branch = 7.x-1.x
+
+[subtree "modules/keatures/ktopic"]
+	url = https://github.com/drupal-rain/ktopic.git
+	path = modules/keatures/ktopic
+	branch = 7.x-1.x
+
+[subtree "modules/keatures/ktopic_review"]
+	url = https://github.com/drupal-rain/ktopic_review.git
+	path = modules/keatures/ktopic_review
+	branch = 7.x-1.x
+
+###############################################################################
+# themes    
+
+[subtree "themes/kalatheme"]
+	url = https://github.com/drupalprojects/kalatheme.git
+	path = themes/kalatheme
+	branch = 7.x-3.x
+
+[subtree "themes/rubik"]
+	url = https://github.com/drupalprojects/rubik.git
+	path = themes/rubik
+	branch = 7.x-4.x
+
+[subtree "themes/shiny"]
+	url = https://github.com/drupalprojects/shiny.git
+	path = themes/shiny
+	branch = 7.x-1.x
+
+[subtree "themes/tao"]
+	url = https://github.com/drupalprojects/tao.git
+	path = themes/tao
+	branch = 7.x-3.x
