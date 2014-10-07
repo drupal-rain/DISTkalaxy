@@ -96,6 +96,11 @@
 	path = modules/base/inline_entity_form
 	branch = 7.x-1.x
 
+[subtree "modules/base/jquery_update"]
+	url = https://github.com/drupalprojects/jquery_update.git
+	path = modules/base/jquery_update
+	branch = 7.x-2.x
+
 [subtree "modules/base/ktools"]
 	url = https://github.com/drupal-rain/ktools.git
 	path = modules/base/ktools

@@ -45,6 +45,7 @@ dependencies[] = field_collection
 dependencies[] = field_group
 dependencies[] = file_entity
 dependencies[] = globalredirect
+dependencies[] = jquery_update
 dependencies[] = libraries
 dependencies[] = machine_name
 dependencies[] = media
