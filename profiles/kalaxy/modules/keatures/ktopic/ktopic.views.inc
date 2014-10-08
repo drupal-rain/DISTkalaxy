@@ -6,7 +6,10 @@
 function ktopic_views_data_alter(&$data) {
 
   $data_tmp = &$data['views_entity_node'];
-  $kdata_bundles = eck_extras_get_entity_bundles('kdata');
+  $kdata_bundles = array();
+  if (function_exists('eck_extras_get_entity_bundles')) {
+    $kdata_bundles = eck_extras_get_entity_bundles('kdata');
+  }
   foreach ($kdata_bundles as $bundle) {
     //$data_tmp[$bundle]['relationship']['base'] = 'entity_eck_kdata';
     $data_tmp[$bundle]['relationship']['group'] = t('Ktopic');
