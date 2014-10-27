@@ -31,6 +31,7 @@
      *   - field_suffix: The #field_suffix of the form element.
      */
     attach: function (context, settings) {
+      if (!settings.machineName) return;
       var self = this;
       //if (!settings.machineName) return;
       $.each(settings.machineName, function (source_id, options) {
@@ -111,7 +112,7 @@
               if ($source.val() !== '') {
                 var request = $.ajax({
                   cache: false,
-                  url: Drupal.settings.basePath + "/safeword/ajax/transliterate",
+                  url: "/safeword/ajax/transliterate",
                   type: "POST",
                   dataType: "json",
                   data: {source: $source.val()},
