@@ -1,7 +1,0 @@
-name = Taxonomy Manager
-description = Tool for administrating taxonomy terms.
-core = "7.x"
-dependencies[] = taxonomy
-files[] = taxonomy_manager.admin.inc
-configure = admin/config/user-interface/taxonomy-manager-settings
-package = Taxonomy

@@ -1,4 +1,0 @@
-name = Relation Endpoints Field
-description = Helper module for Relation. Defines endpoints field (not usable except by relation).
-core = 7.x
-package = Relation

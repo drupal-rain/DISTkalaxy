@@ -1,7 +1,0 @@
-name = Relation feeds
-description = Feeds integration module for Relation.
-core = 7.x
-package = Relation
-files[] = tests/relation.feeds_processor.test
-dependencies[] = relation
-dependencies[] = feeds
