@@ -1,0 +1,140 @@
+<?php
+
+// @issue
+// subpathauto make first level /<ktopic>/goto become /node/[nid]/goto, but /<ktopic>/goto still work.
+
+/**
+ * Implements hook_views_api().
+ */
+function affilink_views_api() {
+  return array(
+    'api' => 3,
+    'path' => drupal_get_path('module', 'affilink') . '/views',
+  );
+}
+
+// -----------------------------------------------------------------------------
+// Redirect
+
+/**
+ *  Implements hook_redirect_insert().
+ */
+function affilink_redirect_insert($redirect) {
+  list($entity_type, $entity) = affilink_redirect_get_entity($redirect);
+  affilink_operate('insert', $entity_type, $entity, $redirect);
+}
+
+/**
+ *  Implements hook_redirect_update().
+ */
+function affilink_redirect_update($redirect) {
+  list($entity_type, $entity) = affilink_redirect_get_entity($redirect);
+  affilink_operate('update', $entity_type, $entity, $redirect);
+}
+
+/**
+ *  Implements hook_redirect_delete().
+ */
+function affilink_redirect_delete($redirect) {
+  list($entity_type, $entity) = affilink_redirect_get_entity($redirect);
+  affilink_operate('delete', $entity_type, $entity, $redirect);
+}
+
+/**
+ * Main function to hook into redirect operations.
+ */
+function affilink_operate($op, $entity_type, $entity, $redirect) {
+  if (is_null($entity_type) || is_null($entity)) {
+    return;
+  }
+
+  $affilink_new = affilink_object($entity_type, $entity, $redirect);
+
+  switch ($op) {
+    case 'insert':
+      if ($entity_type && $entity) {
+        drupal_write_record('affilink', $affilink_new);
+      }
+      break;
+    case 'update':
+      $affilink_old = affilink_load_by_redirect($redirect);
+      $primary_keys = array();
+      if ($affilink_old) {
+        $primary_keys = array('rid');
+      }
+      drupal_write_record('affilink', $affilink_new, $primary_keys);
+      break;
+    case 'delete':
+      $affilink_old = affilink_load_by_redirect($redirect);
+      if ($affilink_old) {
+        db_delete('affilink')->condition('rid', $affilink_old->rid)->execute();
+      }
+      break;
+  }
+}
+
+/**
+ * Load affilink by rid from db.
+ */
+function affilink_load_by_redirect($redirect) {
+  if (is_numeric($redirect)) {
+    $rid = $redirect;
+  }
+  else {
+    $rid = $redirect->rid;
+  }
+  $query = db_select('affilink');
+  $query->fields('affilink');
+  /*
+  $query->addField('affilink', 'entity_type');
+  $query->addField('affilink', 'entity_id');
+  $query->addField('affilink', 'rid');
+  */
+  $query->condition('rid', $rid);
+  $result = $query->execute();
+  $affilink = $result->fetchObject();
+  if ($affilink) {
+    return $affilink;
+  }
+
+  return NULL;
+}
+
+/**
+ * Generate stdClass object of affilink.
+ */
+function affilink_object($entity_type, $entity, $redirect) {
+  $affilink = new stdClass();
+  $affilink->entity_type = $entity_type;
+  $affilink->entity_id = entity_id($entity_type, $entity);
+  $affilink->rid = $redirect->rid;
+
+  return $affilink;
+}
+
+// @todo Support all entity type.
+// @todo Supoort custom patterns.
+function affilink_redirect_get_entity($redirect) {
+  $source = $redirect->source;
+
+  // Assume '/goto/' pattern.
+  if (strpos($source, '/goto') !== FALSE) {
+    $path = substr($source, 0, strpos($source, '/goto'));
+    // System menu path or alias
+    if (strpos($path, 'node/') !== 0) {
+      $path_node = drupal_get_normal_path($path);
+    }
+    else {
+      $path_node = $path;
+    }
+    // @todo Better solution.
+    $match = drupal_match_path($path_node, 'node/*');
+    if ($match) {
+      $path_node_arr = explode('/', $path_node);
+
+      return array('node', node_load($path_node_arr[1]));
+    }
+  }
+
+  return array(NULL, NULL);
+}

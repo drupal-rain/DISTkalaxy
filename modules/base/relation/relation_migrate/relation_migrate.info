@@ -1,0 +1,13 @@
+name = Relation migrate
+description = Migrate integration module for Relation.
+core = 7.x
+package = Relation
+
+files[] = relation_migrate.destination.inc
+files[] = relation_migrate.source.inc
+files[] = relation_migrate.migration.inc
+files[] = tests/relation.migrate.test
+
+dependencies[] = relation
+dependencies[] = relation_ui
+dependencies[] = migrate

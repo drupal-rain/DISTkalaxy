@@ -1,0 +1,10 @@
+name = Theme developer
+description = Essential theme API information for theme developers
+package = Development
+core = 7.x
+
+dependencies[] = devel
+dependencies[] = simplehtmldom
+
+configure = admin/config/development/devel_themer
+files[] = devel_themer.module

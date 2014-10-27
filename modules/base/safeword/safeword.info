@@ -1,0 +1,5 @@
+name = Safeword
+description = Provides a text field with both human and machine-readable versions of a string.
+core = 7.x
+files[] = safeword.module
+files[] = safeword.migrate.inc

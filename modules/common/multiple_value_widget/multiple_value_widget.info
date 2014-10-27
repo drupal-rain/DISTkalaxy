@@ -1,0 +1,4 @@
+name = Multiple Value Widget
+description = Make multiple value forms more user friendly.
+core = 7.x
+package = Fields

@@ -1,0 +1,8 @@
+name = Field tools taxonomy
+description = Allows taxonomy vocabularies to be applied to entities.
+dependencies[] = field_ui
+dependencies[] = taxonomy
+package = Fields
+core = 7.x
+files[] = field_tools_taxonomy.module
+files[] = field_tools_taxonomy.admin.inc

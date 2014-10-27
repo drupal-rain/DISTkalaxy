@@ -1,0 +1,6 @@
+name = Views Tree
+description = A Views style plugin to display a tree of elements using the adjacency model.
+package = Views
+core = 7.x
+dependencies[] = views
+files[] = views_tree_plugin_style_tree.inc

@@ -1,0 +1,1 @@
+<hr class="<?php print $classes; ?>"<?php print $attributes; ?> />

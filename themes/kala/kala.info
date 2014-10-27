@@ -1,0 +1,13 @@
+name = Kala
+description = A middle component theme based on Kalatheme.
+core = 7.x
+base theme = kalatheme
+
+; Breakpoints
+breakpoints[lg] = (min-width: 1200px)
+breakpoints[md] = (min-width: 992px)
+breakpoints[sm] = (min-width: 768px)
+breakpoints[xs] = (min-width: 0px) and (max-width: 767px)
+
+; Plugins
+;plugins[panels][styles] = styles

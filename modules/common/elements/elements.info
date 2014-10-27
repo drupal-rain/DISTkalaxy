@@ -1,0 +1,5 @@
+name = Elements
+description = Provides a library of Form API elements.
+core = 7.x
+files[] = elements.module
+files[] = elements.theme.inc

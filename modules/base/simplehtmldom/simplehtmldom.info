@@ -1,0 +1,4 @@
+name = simplehtmldom API
+description = A bridge between the PHP Simple HTML DOM Parser library and Drupal.
+core = 7.x
+

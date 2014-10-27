@@ -1,0 +1,7 @@
+
+name = "ThemeKey UI"
+description = "Integrates ThemeKey with Drupal administration forms."
+core = 7.x
+dependencies[]= themekey
+package = ThemeKey
+configure = admin/config/user-interface/themekey/settings/ui

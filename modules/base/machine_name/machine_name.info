@@ -1,0 +1,4 @@
+name = Machine name
+description = Provides a machine name field.
+package = Fields
+core = 7.x
