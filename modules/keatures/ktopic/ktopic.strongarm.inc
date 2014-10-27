@@ -24,6 +24,9 @@ function ktopic_strongarm() {
         'path' => array(
           'weight' => '5',
         ),
+        'redirect' => array(
+          'weight' => '6',
+        ),
       ),
       'display' => array(),
     ),
@@ -42,7 +45,10 @@ function ktopic_strongarm() {
           'weight' => '0',
         ),
         'path' => array(
-          'weight' => '5',
+          'weight' => '6',
+        ),
+        'redirect' => array(
+          'weight' => '7',
         ),
       ),
       'display' => array(),
@@ -143,6 +149,12 @@ function ktopic_strongarm() {
         'choice' => 1,
       ),
       'teaser' => array(
+        'status' => 0,
+        'default' => 0,
+        'default display' => 0,
+        'choice' => 0,
+      ),
+      'featured' => array(
         'status' => 0,
         'default' => 0,
         'default display' => 0,
@@ -913,7 +925,7 @@ function ktopic_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'pathauto_node_ktopic_pattern';
-  $strongarm->value = '[node:field_ktopic_name]';
+  $strongarm->value = '[node:ktopic_name]';
   $export['pathauto_node_ktopic_pattern'] = $strongarm;
 
   $strongarm = new stdClass();

@@ -11,6 +11,16 @@
 	path = modules/base/admin_menu
 	branch = 7.x-3.x
 
+[subtree "modules/base/breakpoints"]
+	url = https://github.com/drupalprojects/breakpoints.git
+	path = modules/base/breakpoints
+	branch = 7.x-1.x
+
+[subtree "modules/base/ckeditor"]
+	url = https://github.com/drupalprojects/ckeditor.git
+	path = modules/base/ckeditor
+	branch = 7.x-1.x
+
 [subtree "modules/base/context"]
 	url = https://github.com/drupalprojects/context.git
 	path = modules/base/context
@@ -21,10 +31,20 @@
 	path = modules/base/cool
 	branch = 7.x-1.x
 
+[subtree "modules/base/countries"]
+	url = https://github.com/drupalprojects/countries.git
+	path = modules/base/countries
+	branch = 7.x-2.x
+
 [subtree "modules/base/ctools"]
 	url = https://github.com/drupalprojects/ctools.git
 	path = modules/base/ctools
 	branch = 7.x-1.x
+
+[subtree "modules/base/currency"]
+	url = https://github.com/drupalprojects/currency.git
+	path = modules/base/currency
+	branch = 7.x-2.x
 
 [subtree "modules/base/date"]
 	url = https://github.com/drupalprojects/date.git
@@ -126,6 +146,11 @@
 	path = modules/base/media
 	branch = 7.x-2.x
 
+[subtree "modules/base/media_oembed"]
+	url = https://github.com/drupalprojects/media_oembed.git
+	path = modules/base/media_oembed
+	branch = 7.x-2.x
+
 [subtree "modules/base/module_filter"]
 	url = https://github.com/drupalprojects/module_filter.git
 	path = modules/base/module_filter
@@ -144,6 +169,11 @@
 [subtree "modules/base/options_element"]
 	url = https://github.com/drupalprojects/options_element.git
 	path = modules/base/options_element
+	branch = 7.x-1.x
+
+[subtree "modules/base/owlcarousel"]
+	url = https://github.com/drupalprojects/owl-carousel.git
+	path = modules/base/owlcarousel
 	branch = 7.x-1.x
 
 [subtree "modules/base/panelizer"]
@@ -170,6 +200,16 @@
 	url = https://github.com/drupalprojects/pathologic.git
 	path = modules/base/pathologic
 	branch = 7.x-2.12
+
+[subtree "modules/base/phone"]
+	url = https://github.com/drupalprojects/phone.git
+	path = modules/base/phone
+	branch = 7.x-1.x
+
+[subtree "modules/base/picture"]
+	url = https://github.com/drupalprojects/picture.git
+	path = modules/base/picture
+	branch = 7.x-2.x
 
 [subtree "modules/base/pm_existing_pages"]
 	url = https://github.com/drupalprojects/pm_existing_pages.git
@@ -210,6 +250,11 @@
 	url = https://github.com/drupalprojects/simplehtmldom.git
 	path = modules/base/simplehtmldom
 	branch = 7.x-2.1
+
+[subtree "modules/base/smartcrop"]
+	url = https://github.com/drupalprojects/smartcrop.git
+	path = modules/base/smartcrop
+	branch = 7.x-1.x
 
 [subtree "modules/base/strongarm"]
 	url = https://github.com/drupalprojects/strongarm.git
@@ -259,6 +304,11 @@
 	path = modules/common/affilink
 	branch = 7.x-1.x
 
+[subtree "modules/common/chosen"]
+	url = https://github.com/drupalprojects/chosen.git
+	path = modules/common/chosen
+	branch = 7.x-2.x
+
 [subtree "modules/common/crumbs"]
 	url = https://github.com/drupalprojects/crumbs.git
 	path = modules/common/crumbs
@@ -273,6 +323,11 @@
 	url = https://github.com/drupalprojects/field_conditional_state.git
 	path = modules/common/field_conditional_state
 	branch = 7.x-2.0
+
+[subtree "modules/common/field_formatter_settings"]
+	url = https://github.com/drupalprojects/field_formatter_settings.git
+	path = modules/common/field_formatter_settings
+	branch = 7.x-1.x
 
 [subtree "modules/common/field_tools"]
 	url = https://github.com/drupalprojects/field_tools.git
@@ -298,6 +353,11 @@
 	url = https://github.com/drupalprojects/multiform.git
 	path = modules/common/multiform
 	branch = 7.x-1.1
+
+[subtree "modules/common/multiple_value_widget"]
+	url = https://github.com/drupalprojects/multiple_value_widget.git
+	path = modules/common/multiple_value_widget
+	branch = 7.x-1.x
 
 [subtree "modules/common/multiupload_filefield_widget"]
 	url = https://github.com/drupalprojects/multiupload_filefield_widget.git
@@ -415,6 +475,11 @@
 
 ###############################################################################
 # themes    
+
+[subtree "themes/kala"]
+	url = https://github.com/drupal-rain/kala.git
+	path = themes/kala
+	branch = 7.x-1.x
 
 [subtree "themes/kalatheme"]
 	url = https://github.com/drupalprojects/kalatheme.git

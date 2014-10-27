@@ -15,7 +15,7 @@ function knews_taxonomy_default_vocabularies() {
       'description' => '',
       'hierarchy' => 1,
       'module' => 'taxonomy',
-      'weight' => 0,
+      'weight' => -10,
     ),
   );
 }

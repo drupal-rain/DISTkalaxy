@@ -10,13 +10,13 @@
 function knews_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'field_knews_cat'
-  $field_bases['field_knews_cat'] = array(
+  // Exported field_base: 'knews_cat'
+  $field_bases['knews_cat'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'field_knews_cat',
+    'field_name' => 'knews_cat',
     'foreign keys' => array(
       'taxonomy_term_data' => array(
         'columns' => array(
@@ -36,9 +36,6 @@ function knews_field_default_field_bases() {
       'handler' => 'base',
       'handler_settings' => array(
         'behaviors' => array(
-          'treefield_sql' => array(
-            'status' => 0,
-          ),
           'views-select-list' => array(
             'status' => 0,
           ),

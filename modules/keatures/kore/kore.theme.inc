@@ -1,6 +1,91 @@
 <?php
 
 /**
+ *  Implements hook_theme().
+ */
+function kore_theme($existing, $type, $theme, $path) {
+  $path = drupal_get_path('module', 'kore');
+
+  // Register Kitem theme hooks.
+  $kitems_registry = kitem_theme_registry($existing, $type, $theme, $path);
+
+  return $kitems_registry + array(
+    'kitem' => array(
+      'variables' => array(
+        'type' => 'default',
+        'subtype' => NULL,
+        'item' => array(), // @todo Change to object and add handler class feature to plugin.
+        'settings' => array(),
+      ),
+      'file' => 'theme/kitem.inc',
+      'template' => 'theme/kitem',
+    ),
+    'klist' => array(
+      'variables' => array(
+        'type' => 'default', // Unformatted list
+        'subtype' => NULL,
+        'items' => array(),
+        'settings' => array(),
+      ),
+      'file' => 'theme/klist.inc',
+      'template' => 'theme/klist',
+    ),
+    'kore_image' => array(
+      'variables' => array(
+        'type' => 'image',
+        'fid' => NULL,
+        'path' => NULL,
+        'width' => NULL,
+        'height' => NULL,
+        'alt' => NULL,
+        'title' => NULL,
+        'attributes' => array(),
+        'style_name' => NULL,
+        'link' => NULL,
+        'picture' => NULL,
+      ),
+      'file' => 'theme/kore_image.inc',
+    ),
+    'kore_list_group' => array(
+      'variables' => array(
+        'label' => NULL,
+        'items' => NULL,
+        'items_active' => NULL,
+        'items_disabled' => NULL,
+      ),
+      'file' => 'theme/kore_list_group.inc',
+    ),
+    'kore_media' => array(
+      'variables' => array(
+        'items' => array(),
+        'settings' => array(),
+        'attributes' => array(),
+      ),
+      'file' => 'theme/kore_media.inc',
+    ),
+    'kore_thumbnail' => array(
+      'variables' => array(
+        'items' => array(),
+        'settings' => array(),
+      ),
+      'file' => 'theme/kore_thumbnail.inc',
+      'template' => 'theme/kore_thumbnail', // @todo Transfer to theme function, Again???
+    ),
+    'kore_carousel' => array(
+      'variables' => array(
+        'items' => array(),
+        'settings' => array(),
+        'attributes' => array(),
+      ),
+      'file' => 'theme/kore_carousel.inc',
+    ),
+  );
+}
+
+// =============================================================================
+// Theme Registry
+
+/**
  *  Implements hook_preprocess().
  */
 function kore_preprocess_page(&$vars) {
@@ -17,43 +102,17 @@ function kore_preprocess_page(&$vars) {
   }
 }
 
+// =============================================================================
+// Utility
+
 /**
- *  Implements hook_theme().
+ * Process $settings['attributes'] into template attributes arrays.
  */
-function kore_theme($existing, $type, $theme, $path) {
-  return array(
-    'kore_list_group' => array(
-      'variables' => array(
-        'label' => NULL,
-        'items' => NULL,
-        'items_active' => NULL,
-        'items_disabled' => NULL,
-      ),
-    ),
-  );
-}
-
-function theme_kore_list_group($vars) {
-  $out = "";
-  if ($vars['label']) {
-    $out .= "<h3>" . $vars['label'] . "</h3>";
-  }
-  if ($vars['items']) {
-    $out .= '<ul class="list-group">';
-    $items_active = $vars['items_active'];
-    $items_disabled = $vars['items_disabled'];
-    foreach ($vars['items'] as $key => $value) {
-      $classes = array('list-group-item');
-      if (is_array($items_disabled) && in_array($key, $items_disabled)) {
-        $classes[] = 'disabled';
-      }
-      if (is_array($items_active) && in_array($key, $items_active)) {
-        $classes[] = 'active';
-      }
-      $out .= '<li class="' . implode(' ', $classes) . '">' . $value . "</li>";
+function kore_attributes_process(&$vars, $attributes) {
+  $indexes = array('classes_array', 'attributes_array', 'title_attributes_array', 'content_attributes_array');
+  foreach ($indexes as $index) {
+    if (isset($attributes[$index])) {
+      $vars[$index] = array_merge($vars[$index], $attributes[$index]);
     }
-    $out .= "</ul>";
   }
-
-  return $out;
 }

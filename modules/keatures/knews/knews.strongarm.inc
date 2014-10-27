@@ -34,6 +34,9 @@ function knews_strongarm() {
       'revision' => array(
         'custom_settings' => FALSE,
       ),
+      'featured' => array(
+        'custom_settings' => TRUE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
@@ -41,6 +44,9 @@ function knews_strongarm() {
           'weight' => '0',
         ),
         'path' => array(
+          'weight' => '5',
+        ),
+        'redirect' => array(
           'weight' => '6',
         ),
       ),

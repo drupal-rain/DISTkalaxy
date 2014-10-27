@@ -1,0 +1,5 @@
+name = Field formatter settings API
+description = Provides missing alter hooks for field formatter settings and summaries
+core = 7.x
+enhances[] = field_ui
+enhances[] = views_ui

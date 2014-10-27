@@ -1,0 +1,10 @@
+.field-name-kpane-story-media img {
+  display: block;
+  width: 100% \9;
+  max-width: 100%;
+  height: auto;
+}
+
+.field-name-kpane-story-body {
+  word-wrap: break-word;
+}

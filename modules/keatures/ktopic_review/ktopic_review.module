@@ -6,6 +6,8 @@
 
 include_once 'ktopic_review.features.inc';
 
+include_once 'ktopic_review.theme.inc';
+
 // Turn '/<ktopic>-review' into 'node/%node'
 /*
 function ktopic_review_url_inbound_alter(&$path, $original_path, $path_language) {
@@ -54,7 +56,7 @@ function ktopic_review_node_update($node) {
 function ktopic_review_main_path_alias($kreview) {
   if ($kreview->type == 'kreview') {
     if ($kreview->status == NODE_PUBLISHED) {
-      $ktopic = ktopic_review_kreview_get_topic($kreview);
+      $ktopic = kreview_get_ktopic($kreview);
       $kreviews = ktopic_review_ktopic_get_reviews($ktopic);
       $kreview_last = ktopic_review_ktopic_get_last_review($ktopic);
       if (
@@ -99,7 +101,7 @@ function ktopic_review_main_path_alias($kreview) {
 // @todo Same day review url.
 function ktopic_review_new_path_alias($kreview) {
   if ($kreview->type == 'kreview' && $kreview->is_new) {
-    $ktopic = ktopic_review_kreview_get_topic($kreview);
+    $ktopic = kreview_get_ktopic($kreview);
     $kreview_uri = entity_uri('node', $kreview);
     $ktopic_uri = entity_uri('node', $ktopic);
     $ktopic_path_alias = drupal_get_path_alias($ktopic_uri['path']);
@@ -116,7 +118,7 @@ function ktopic_review_new_path_alias($kreview) {
 // For update kreview.
 function ktopic_review_mod_path_alias($kreview) {
   if ($kreview->type == 'kreview' && !$kreview->is_new) {
-    $ktopic = ktopic_review_kreview_get_topic($kreview);
+    $ktopic = kreview_get_ktopic($kreview);
     $kreview_uri = entity_uri('node', $kreview);
     $ktopic_uri = entity_uri('node', $ktopic);
     $ktopic_path_alias = drupal_get_path_alias($ktopic_uri['path']);
@@ -195,23 +197,23 @@ function ktopic_review_ktopic_get_last_review($ktopic) {
 // ----------------------------------------------------------------------------
 // Kreview Function
 
-function ktopic_review_kreview_is_last_review($kreview) {
-  $ktopic = ktopic_review_kreview_get_topic($kreview);
+function kreview_is_last_review($kreview) {
+  $ktopic = kreview_get_ktopic($kreview);
   $kreview_last = ktopic_review_ktopic_get_last_review($ktopic);
 
   return $kreview->nid == $kreview_last->nid ? TRUE : FALSE;
 }
 
 // Fetch the host topic.
-function ktopic_review_kreview_get_topic($kreview) {
+function kreview_get_ktopic($kreview) {
   $lang = $kreview->language;
 
   return node_load($kreview->og_ktopic_ref[$lang][0]['target_id']);
 }
 
 // Fetch related reviews.
-function ktopic_review_kreview_get_reviews($kreview) {
-  $ktopic = ktopic_review_kreview_get_topic($kreview);
+function kreview_get_reviews($kreview) {
+  $ktopic = kreview_get_ktopic($kreview);
 
   return ktopic_review_ktopic_get_reviews($ktopic);
 }

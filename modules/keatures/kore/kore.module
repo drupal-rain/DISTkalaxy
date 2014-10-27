@@ -1,4 +1,39 @@
 <?php
 
+include_once 'kore.features.inc';
+
 include_once 'kore.form.inc';
 include_once 'kore.theme.inc';
+
+include_once 'kore.kitem.inc';
+include_once 'kore.klist.inc';
+
+/**
+ * Wrapper for ctools_include().
+ */
+function kore_include($file, $dir = 'includes') {
+  ctools_include($file, 'kore', $dir);
+}
+
+/**
+ *  Implements hook_ctools_plugin_type().
+ */
+function kore_ctools_plugin_type() {
+  return array(
+    'kitem' => array(
+      'load themes' => TRUE,
+      'defaults' => array(
+        'subtypes' => array(),
+      ),
+    ),
+  );
+}
+
+/**
+ *  Implements hook_ctools_plugin_directory().
+ */
+function kore_ctools_plugin_directory($owner, $plugin_type) {
+  if ($owner == 'kore') {
+    return 'plugins/' . $plugin_type;
+  }
+}

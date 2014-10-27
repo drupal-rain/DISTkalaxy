@@ -1,0 +1,6 @@
+name = Owl Carousel Fields
+description = "Provides Owl Carousel field formatter."
+core = 7.x
+package = Owl Carousel
+
+dependencies[] = owlcarousel

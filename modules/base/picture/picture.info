@@ -1,0 +1,10 @@
+name = Picture
+description = Picture element
+core = 7.x
+dependencies[] = ctools
+dependencies[] = image
+dependencies[] = breakpoints
+files[] = includes/PictureMapping.php
+configure = admin/config/media/picture
+package = Picture
+stylesheets[all][] = picture_wysiwyg.css

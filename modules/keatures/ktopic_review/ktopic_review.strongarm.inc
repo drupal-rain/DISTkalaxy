@@ -22,6 +22,9 @@ function ktopic_review_strongarm() {
           'weight' => '1',
         ),
         'path' => array(
+          'weight' => '4',
+        ),
+        'redirect' => array(
           'weight' => '5',
         ),
       ),

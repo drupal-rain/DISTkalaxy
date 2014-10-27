@@ -4,7 +4,16 @@
  * Code for the Kpane feature.
  */
 
+define('KPANE_ENTITY', 'fieldable_panels_pane');
+
 include_once 'kpane.features.inc';
+
+/**
+ * Wrapper for ctools_include().
+ */
+function kpane_include($file, $dir = 'includes') {
+  ctools_include($file, 'kpane', $dir);
+}
 
 // =============================================================================
 // Plugin
@@ -24,15 +33,18 @@ function kpane_ctools_plugin_type() {
  *  Implements hook_ctools_plugin_directory().
  */
 function kpane_ctools_plugin_directory($owner, $plugin_type) {
-  if ($owner == 'kpane') {
+  if (in_array($owner, array('kore', 'kpane'))) {
     return 'plugins/' . $plugin_type;
+  }
+  if ($owner == 'panels') {
+    return 'panels/' . $plugin_type;
   }
 }
 
 /**
- * Wrapper for ctools_get_plugins().
+ * Wrapper for ctools_get_plugins() to get kpane plugins.
  */
-function kpane_kpane_get_plugins($id = NULL) {
+function kpane_plugin_get_plugins($id = NULL) {
   ctools_include('plugins');
   $plugins = ctools_get_plugins('kpane', 'kpane', $id);
 
@@ -42,9 +54,10 @@ function kpane_kpane_get_plugins($id = NULL) {
 /**
  * Get optional callback function of plugin.
  */
-function kpane_kpane_get_function($id, $callback) {
+function kpane_plugin_get_function($id, $callback) {
   ctools_include('plugins');
   $function = ctools_plugin_load_function('kpane', 'kpane', $id, $callback);
+  // Allow to use default name of callback: MODULE_kpane_PLUGIN_CALLBACK().
   if (!$function) {
     $plugin = ctools_get_plugins('kpane', 'kpane', $id);
     $function_tmp = $plugin['module'] . '_kpane_' . $id . '_' . str_replace(' ', '_', $callback);
@@ -56,13 +69,28 @@ function kpane_kpane_get_function($id, $callback) {
   return $function;
 }
 
+/**
+ * Attach css, js, etc.
+ */
+// @todo Finish the design and work.
+function kpane_plugin_attach($id) {
+  $plugin = kpane_plugin_get_plugins($id);
+  // @todo Support other input format?
+  if (isset($plugin['css'])) {
+    drupal_add_css($plugin['path'] . '/' . $plugin['css']);
+  }
+  if (isset($plugin['js'])) {
+    drupal_add_js($plugin['path'] . '/' . $plugin['js']);
+  }
+}
+
 // -----------------------------------------------------------------------------
-// Helper Functions
+// Helper Functions for Plugin
 
 /**
  * Helper function for plugin.
  */
-function _kpane_kpane_bundle_info($id) {
+function _kpane_plugin_bundle_info($id) {
   return array(
     'label' => ucfirst($id),
     'pane category' => t('Kpane'),
@@ -80,8 +108,8 @@ function _kpane_kpane_bundle_info($id) {
 /**
  * Helper function for plugin.
  */
-function _kpane_kpane_theme_registry($id) {
-  $plugin = kpane_kpane_get_plugins($id);
+function _kpane_plugin_theme_registry($id) {
+  $plugin = kpane_plugin_get_plugins($id);
   $registry = array();
   $registry['fieldable_panels_pane__' . $id] = array (
     'base hook' => 'fieldable_panels_pane',
@@ -89,25 +117,59 @@ function _kpane_kpane_theme_registry($id) {
     'path' => $plugin['path'],
     'template' => $id,
   );
+  if (!empty($plugin['subtypes'])) {
+    foreach ($plugin['subtypes'] as $subtype => $subtype_info) {
+      $registry['fieldable_panels_pane__' . $id . '_' . $subtype] = array (
+        'base hook' => 'fieldable_panels_pane',
+        'render element' => 'elements',
+        'path' => $plugin['path'],
+        'template' => $id . '_' . $subtype,
+      );
+    }
+  }
 
   return $registry;
 }
 
 // =============================================================================
-//
+// Hook
+
+/**
+ * Implements hook_menu().
+ */
+function kpane_menu() {
+
+  $items['admin/structure/fieldable-panels-panes/manage/%/reset'] = array(
+    'title' => 'Reset',
+    'description' => 'Reset the kpane.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('kpane_plugin_reset_form', 4),
+    'access arguments' => array('administer fieldable panels panes'),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 100,
+  );
+
+  return $items;
+}
 
 /**
  *  Implements hook_entity_info_alter().
  */
 function kpane_entity_info_alter(&$entity_info) {
-  $plugins = kpane_kpane_get_plugins();
+  $plugins = kpane_plugin_get_plugins();
   foreach ($plugins as $id => $plugin) {
-    $callback = kpane_kpane_get_function($id, 'bundle info');
+    $callback = kpane_plugin_get_function($id, 'bundle info');
     if ($callback) {
       $entity_info['fieldable_panels_pane']['bundles'][$id] = $callback();
     }
+    else {
+      $entity_info['fieldable_panels_pane']['bundles'][$id] = _kpane_plugin_bundle_info($id);
+    }
   }
 }
+
+// =============================================================================
+// Theme
 
 /**
  * Implements hook_theme().
@@ -120,27 +182,17 @@ function kpane_theme($existing, $type, $theme, $path) {
     'template' => 'panels-pane--fieldable-panels-pane',
   );
 
-  // Give registry in order to provide templates in module level.
-  /*
-  $panes = array('pane_heading', 'pane_dividend', 'pane_feature');
-  foreach ($panes as $pane) {
-    $registry['fieldable_panels_pane__' . $pane] = array (
-      'base hook' => 'fieldable_panels_pane',
-      'render element' => 'elements',
-      'path' => drupal_get_path('module', 'kpane') . '/templates',
-      'template' => 'fieldable-panels-pane--' . str_replace('_', '-', $pane),
-    );
-  }
-  */
-
   // Plugins Theme Registry
   // Allow to add more than on item to the registry.
   // Then in template preprocess, it could use settings information to add theme hook suggestion.
-  $plugins = kpane_kpane_get_plugins();
+  $plugins = kpane_plugin_get_plugins();
   foreach ($plugins as $id => $plugin) {
-    $callback = kpane_kpane_get_function($id, 'theme registry');
+    $callback = kpane_plugin_get_function($id, 'theme registry');
     if ($callback) {
       $registry += $callback($existing, $type, $theme, $path);
+    }
+    else {
+      $registry += _kpane_plugin_theme_registry($id);
     }
   }
 
@@ -183,32 +235,23 @@ function kpane_preprocess_fieldable_panels_pane(&$vars) {
   }
 
   // Title
-  $vars['title'] = $entity->title;
-  if ($entity->link) {
-    $vars['title'] = l($vars['title'], $entity->path);
+  if ($entity->settings['display']['title']) {
+    $vars['title'] = $entity->title;
+    if ($entity->link) {
+      $vars['title'] = l($vars['title'], $entity->path);
+    }
+    $vars['tag'] = $entity->settings['display']['title_tag'];
   }
 
-  // pane_dividend
-  if ($entity->bundle == 'pane_dividend') {
-    $vars['classes_array'][] = 'clearfix';
-    $vars['attributes_array']['title'] = $entity->title;
-  }
-  // pane_heading
-  /*
-  if ($entity->bundle == 'pane_heading') {
-    $vars['tag'] = 'h' . $entity->field_pane_heading_tag['und'][0]['value'];
-  }
-  */
-  // pane_feature
-  if ($entity->bundle == 'pane_feature') {
-    //dsm($vars);
-  }
-
-  // Plugin Template Preprocess
-  $callback = kpane_kpane_get_function($entity->bundle, 'template preprocess');
+  // Plugin Callback: 'template preprocess'
+  $callback = kpane_plugin_get_function($entity->bundle, 'template preprocess');
   if ($callback) {
     $callback($vars, $entity);
   }
+
+  // Plugin Attach
+  // Simple attach files, for complex attach, use 'template preprocess' to achieve
+  kpane_plugin_attach($entity->bundle);
 
 }
 
@@ -219,7 +262,7 @@ function kpane_process_fieldable_panels_pane(&$vars) {
   //dsm($vars);
   $entity = $vars['elements']['#fieldable_panels_pane'];
   // Plugin Template Process
-  $callback = kpane_kpane_get_function($entity->bundle, 'template preprocess');
+  $callback = kpane_plugin_get_function($entity->bundle, 'template process');
   if ($callback) {
     $callback($vars, $entity);
   }
@@ -232,7 +275,9 @@ function kpane_fieldable_panels_panes_entity_settings_form_alter(&$form, &$form_
   $entity = $form_state['entity'];
   // No revision by default.
   $form['revision']['revision']['#default_value'] = FALSE;
-  // Global Settings
+
+  // --- Global Settings --- //
+
   // CSS
   $form['settings']['css'] = array(
     '#type' => 'fieldset',
@@ -242,29 +287,104 @@ function kpane_fieldable_panels_panes_entity_settings_form_alter(&$form, &$form_
   $form['settings']['css']['entity_class'] = array(
     '#type' => 'checkbox',
     '#title' => t('Use entity CSS class'),
-    '#default_value' => $entity->settings['css']['entity_class'],
+    '#default_value' => kpane_settings_global_default_value($entity, array('css', 'entity_class'), TRUE),
   );
   $form['settings']['css']['bundle_class'] = array(
     '#type' => 'checkbox',
     '#title' => t('Use bundle CSS class'),
-    '#default_value' => isset($entity->settings['css']['bundle_class']) ? $entity->settings['css']['bundle_class'] : TRUE,
+    '#default_value' => kpane_settings_global_default_value($entity, array('css', 'bundle_class'), TRUE),
   );
   $form['settings']['css']['classes'] = array(
     '#type' => 'textfield',
     '#title' => t('Add CSS classes'),
-    '#default_value' => $entity->settings['css']['classes'],
+    '#default_value' => kpane_settings_global_default_value($entity, array('css', 'classes'), ''),
   );
 
-  // Plugin Settings
+  // Display
+  $form['settings']['display'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Display'),
+    '#collapsible' => TRUE,
+  );
+  $form['settings']['display']['title'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Show title'),
+    '#default_value' => kpane_settings_global_default_value($entity, array('display', 'title'), TRUE),
+  );
+  kore_include('heading');
+  $form['settings']['display']['title_tag'] = array(
+    '#type' => 'select',
+    '#title' => t('Title tag'),
+    '#options' => kore_heading_tag_options(),
+    '#default_value' => kpane_settings_global_default_value($entity, array('display', 'title_tag'), 'h2'),
+  );
+
+  // --- Plugin Settings --- //
   $id = $entity->bundle;
-  $callback = kpane_kpane_get_function($id, 'settings form');
+  $callback = kpane_plugin_get_function($id, 'settings form');
   if ($callback) {
     $form['settings'][$id] = array(
       '#type' => 'fieldset',
       '#title' => t('@id Settings', array('@id' => $id)),
       '#collapsible' => TRUE,
     );
-    $form['settings'][$id] += $callback($form, $form_state);
+    $form['settings'][$id] += $callback($form, $form_state, $entity);
   }
 
+}
+
+// =============================================================================
+// Callbacks, Helpers, Utility
+
+/**
+ * For menu: 'admin/structure/fieldable-panels-panes/manage/%/reset'.
+ */
+function kpane_plugin_reset_form($form, &$form_state, $kpane_bundle) {
+  $question = t('Are you sure to reset he @kpane_bundle.', array('@kpane_bundle' => $kpane_bundle));
+  $path = 'admin/structure/fieldable-panels-panes/manage/' . $kpane_bundle;
+  $form_state['kpane_bundle'] = $kpane_bundle;
+
+  return confirm_form($form, $question, $path);
+}
+
+function kpane_plugin_reset_form_submit($form, &$form_state) {
+  $kpane_bundle = $form_state['kpane_bundle'];
+  if ($form_state['values']['confirm']) {
+    $callback = kpane_plugin_get_function($kpane_bundle, 'reset');
+    if ($callback) {
+      $callback();
+      drupal_set_message(t('@kpane_bundle is reset.', array('@kpane_bundle' => $kpane_bundle)));
+    }
+    else {
+      drupal_set_message(t('Reset callback for @kpane_bundle does not exist.', array('@kpane_bundle' => $kpane_bundle)), 'warning');
+    }
+  }
+  $form_state['redirect'] = 'admin/structure/fieldable-panels-panes/manage/' . $kpane_bundle;
+}
+
+// -----------------------------------------------------------------------------
+// Helper
+
+// Helper function to simplify default value setting in array.
+function kpane_settings_default_value($entity, $param, $default_value, $plugin = TRUE) {
+  if ($plugin) {
+    $var = &$entity->settings[$entity->bundle];
+  }
+  else {
+    $var = &$entity->settings;
+  }
+  if (is_array($param)) {
+    foreach ($param as $child) {
+      $var = &$var[$child];
+    }
+  }
+  else {
+    $var = &$var[$param];
+  }
+
+  return isset($var) ? $var : $default_value;
+}
+
+function kpane_settings_global_default_value($entity, $param, $default_value) {
+  return kpane_settings_default_value($entity, $param, $default_value, FALSE);
 }

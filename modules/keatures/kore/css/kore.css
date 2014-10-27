@@ -1,0 +1,36 @@
+.row.no-gutter {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.row.no-gutter [class*='col-']:not(:first-child),
+.row.no-gutter [class*='col-']:not(:last-child) {
+  padding-right: 0;
+  padding-left: 0;
+}
+
+/* Narrow Style */
+.narrow h3 {
+  font-size: 18px;
+}
+
+.narrow {
+  font-size: 12px;
+}
+
+/* Only Above Middle */
+@media (min-width: 992px) {
+  .vertical-align {
+    display: flex;
+    align-items: center;
+  }
+}
+
+/* Inline Form */
+.form-inline .form-group {
+  margin-left: 2rem;
+}
+
+.form-inline .form-item {
+  margin-left: 2rem;
+}

@@ -21,14 +21,13 @@ function kfield_field_formatter_view($entity_type, $entity, $field, $instance, $
   $list = options_array_flatten($selection_handler->getReferencableEntities());
   $selected = KtoolsEntityField::entityreferenceEntities($entity_type, $entity, $field['field_name']);
 
-  $element = array(
-    '#theme' => 'kore_list_group',
-    '#label' => NULL,
-    '#items' => $list,
-    '#items_disabled' => array_diff(array_keys($list), $selected),
-
-    //'#type' => 'ul',
-    //'#attributes' => array(),
+  $vars = array(
+    'label' => NULL,
+    'items' => $list,
+    'items_disabled' => array_diff(array_keys($list), $selected),
+  );
+  $element[] = array(
+    '#markup' => theme('kore_list_group', $vars),
   );
 
   return $element;

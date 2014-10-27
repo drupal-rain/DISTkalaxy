@@ -1,0 +1,11 @@
+name = SmartCrop
+description = Crops low-entropy parts of the image.
+core = 7.x
+dependencies[] = image
+package = Image
+
+files[] = imageapi_gd.inc
+files[] = smartcrop.install
+files[] = smartcrop.module
+files[] = smartcrop.effects.inc
+files[] = tests/smartcrop.test
