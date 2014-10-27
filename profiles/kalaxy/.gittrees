@@ -11,6 +11,11 @@
 	path = modules/base/admin_menu
 	branch = 7.x-3.x
 
+[subtree "modules/base/bootstrap_library"]
+	url = https://github.com/drupalprojects/bootstrap_library.git
+	path = modules/base/bootstrap_library
+	branch = 7.x-1.x
+
 [subtree "modules/base/breakpoints"]
 	url = https://github.com/drupalprojects/breakpoints.git
 	path = modules/base/breakpoints
@@ -90,6 +95,11 @@
 	url = https://github.com/drupalprojects/features_override.git
 	path = modules/base/features_override
 	branch = 7.x-2.x
+
+[subtree "modules/base/fieldable_panels_panes"]
+	url = https://github.com/drupal-issue/fieldable_panels_panes.git
+	path = modules/base/fieldable_panels_panes
+	branch = 2227675
 
 [subtree "modules/base/field_collection"]
 	url = https://github.com/drupalprojects/field_collection.git
@@ -232,9 +242,9 @@
 	branch = 7.x-2.7
 
 [subtree "modules/base/safeword"]
-	url = https://github.com/drupal-issue/safeword.git
+	url = https://github.com/drupal-fork/safeword.git
 	path = modules/base/safeword
-	branch = 2342103
+	branch = fork1
 
 [subtree "modules/base/serial"]
 	url = https://github.com/drupalprojects/serial.git
@@ -369,6 +379,11 @@
 	path = modules/common/multiupload_imagefield_widget
 	branch = 7.x-1.3
 
+[subtree "modules/common/panels_bootstrap_styles"]
+	url = https://github.com/drupal-issue/panels_bootstrap_styles.git
+	path = modules/common/panels_bootstrap_styles
+	branch = 2361905
+
 [subtree "modules/common/select_or_other"]
 	url = https://github.com/drupalprojects/select_or_other.git
 	path = modules/common/select_or_other
@@ -500,3 +515,5 @@
 	url = https://github.com/drupalprojects/tao.git
 	path = themes/tao
 	branch = 7.x-3.x
+
+

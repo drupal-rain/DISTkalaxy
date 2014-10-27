@@ -73,6 +73,11 @@ Highly related to developer usage(only).
 
 # Themes
 * [admin](#admin)
+* [Website](#website)
 
 ## Admin
 * [shiny](https://drupal.org/project/shiny)
+* [rubik](https://drupal.org/project/rubik)
+
+## Website
+* [kalatheme](https://drupal.org/project/kalatheme)

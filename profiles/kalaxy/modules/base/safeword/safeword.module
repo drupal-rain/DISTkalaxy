@@ -46,6 +46,17 @@ function safeword_menu() {
  * Provides the description of the field.
  */
 function safeword_field_info() {
+  $field_settings = array(
+    'max_length' => 255,
+    'machine_label' => t('URL-safe'),
+    'machine_description' => t('A URL-safe version of the text. It may only contain lowercase letters, numbers and underscores. Leave blank to re-generate.'),
+    'replace_pattern' => '(--|<[^<>]+>|[^a-z0-9-])+', // old [^a-z0-9-]+
+    'replace_value' => '-',
+    'allow_machine_changes' => TRUE,
+    'unique' => FALSE,
+    'show_complete_path' => FALSE,
+    'complete_path_label' => t('Complete path'),
+  );
   return array(
     'safeword' => array(
       'label' => t('Machine name from text'),
@@ -56,6 +67,7 @@ function safeword_field_info() {
       'default_token_formatter' => 'safeword_machine_basic',
       'property_type' => 'safeword_field',
       'property_callbacks' => array('safeword_field_property_info_callback'),
+      'settings' => $field_settings,
     ),
     'safeword_title' => array(
       'label' => t('Machine name from Title'),
@@ -66,6 +78,7 @@ function safeword_field_info() {
       'default_token_formatter' => 'safeword_machine_basic',
       'property_type' => 'safeword_field',
       'property_callbacks' => array('safeword_field_property_info_callback'),
+      'settings' => $field_settings,
     ),
   );
 }
@@ -143,18 +156,6 @@ function safeword_field_is_empty($item, $field) {
  */
 function safeword_field_settings_form($field, $instance, $has_data) {
   $settings = $field['settings'];
-  $settings += array(
-    'max_length' => 255,
-    'machine_label' => t('URL-safe'),
-    'machine_description' => t('A URL-safe version of the text. It may only contain lowercase letters, numbers and underscores. Leave blank to re-generate.'),
-    'replace_pattern' => '(--|<[^<>]+>|[^a-z0-9-])+', // old [^a-z0-9-]+
-    'replace_value' => '-',
-    'allow_machine_changes' => TRUE,
-    'unique' => FALSE,
-    'show_complete_path' => FALSE,
-    'complete_path_label' => t('Complete path'),
-  );
-
   $form = array();
 
   if ($field['type'] == 'safeword' || $field['type'] == 'safeword_title') {
