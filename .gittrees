@@ -102,9 +102,9 @@
 	branch = 7.x-2.x
 
 [subtree "modules/base/fieldable_panels_panes"]
-	url = https://github.com/drupal-issue/fieldable_panels_panes.git
+	url = https://github.com/drupal-fork/fieldable_panels_panes.git
 	path = modules/base/fieldable_panels_panes
-	branch = 2227675
+	branch = fork1
 
 [subtree "modules/base/field_collection"]
 	url = https://github.com/drupalprojects/field_collection.git

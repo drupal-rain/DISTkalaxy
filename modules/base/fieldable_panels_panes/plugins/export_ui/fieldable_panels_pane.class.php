@@ -179,7 +179,7 @@ class fieldable_panels_pane extends ctools_export_ui {
         'href' => $this->field_admin_path($bundle, 'display'),
       );
 
-      $ops = theme('links', array('links' => $operations, 'attributes' => array('class' => array('links', 'inline'))));
+      $ops = theme('links', array('links' => $operations, 'attributes' => array('class' => array('links', 'inline', 'operations'))));
 
       $row[] = $ops;
       $rows[] = $row;
