@@ -1,0 +1,12 @@
+name = Name Field
+description = Defines a persons name field type.
+dependencies[] = field
+package = Fields
+version = VERSION
+core = 7.x
+recommends[] = namedb
+configure = admin/config/content/name
+
+files[] = tests/name.test
+files[] = includes/name_handler_filter_name_fulltext.inc
+files[] = name.migrate.inc

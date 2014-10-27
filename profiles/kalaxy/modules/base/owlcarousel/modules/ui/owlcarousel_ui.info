@@ -1,0 +1,9 @@
+name = Owl Carousel UI
+description = "Provides user interface for Owl Carousel variable management."
+core = 7.x
+package = Owl Carousel
+
+dependencies[] = owlcarousel
+dependencies[] = variable
+
+configure = admin/config/user-interface/owlcarousel

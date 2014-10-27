@@ -1,0 +1,5 @@
+name = Breakpoints Theme Test
+description = Test breakpoints provided by themes
+package = Other
+core = 7.x
+hidden = TRUE

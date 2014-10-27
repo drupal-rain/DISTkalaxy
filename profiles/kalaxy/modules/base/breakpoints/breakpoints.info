@@ -1,0 +1,7 @@
+name = Breakpoints
+description = Manage breakpoints
+core = 7.x
+dependencies[] = ctools
+files[] = breakpoints.module
+files[] = breakpoints.test
+configure = admin/config/media/breakpoints

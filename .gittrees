@@ -1,0 +1,4 @@
+[subtree "profiles/kalaxy"]
+	url = https://github.com/drupal-rain/kalaxy.git
+	path = profiles/kalaxy
+	branch = 7.x-1.x
