@@ -56,6 +56,11 @@
 	path = modules/base/date
 	branch = 7.x-2.x
 
+[subtree "modules/base/double_field"]
+	url = https://github.com/drupalprojects/double_field.git
+	path = modules/base/double_field
+	branch = 7.x-2.x
+
 [subtree "modules/base/ds"]
 	url = https://github.com/drupalprojects/ds.git
 	path = modules/base/ds
@@ -296,6 +301,11 @@
 	path = modules/base/views
 	branch = 7.x-3.8
 
+[subtree "modules/base/views_bootstrap"]
+	url = https://github.com/drupalprojects/views_bootstrap.git
+	path = modules/base/views_bootstrap
+	branch = 7.x-3.x
+
 [subtree "modules/base/views_bulk_operations"]
 	url = https://github.com/drupalprojects/views_bulk_operations.git
 	path = modules/base/views_bulk_operations
@@ -516,4 +526,7 @@
 	path = themes/tao
 	branch = 7.x-3.x
 
-
+[subtree "modules/common/views_term_hierarchy_weight_field"]
+	url = https://github.com/drupalprojects/views_term_hierarchy_weight_field.git
+	path = modules/common/views_term_hierarchy_weight_field
+	branch = 7.x-1.x
