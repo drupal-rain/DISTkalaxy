@@ -1,6 +1,12 @@
 <?php
 
-$plugin = array();
+$plugin = array(
+  'css' => 'picture.css',
+  'classes' => array(
+    'picture-space-normal' => t('(!class) Picture space normal', array('!class' => '.picture-space-normal')),
+    'picture-frame-simple' => t('(!class) Simple picture frame', array('!class' => '.picture-frame-simple')),
+  ),
+);
 
 function kpane_kpane_picture_bundle_info() {
   return _kpane_plugin_bundle_info('picture');

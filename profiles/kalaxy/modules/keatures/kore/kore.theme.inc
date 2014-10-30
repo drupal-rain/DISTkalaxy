@@ -1,5 +1,16 @@
 <?php
 
+// Grid size constants
+define('KORE_GRID_SIZE', 12);
+define('KORE_GRID_FULL', 1);
+define('KORE_GRID_HALF', 1/2);
+define('KORE_GRID_THIRD', 1/3);
+define('KORE_GRID_FOURTH', 1/4);
+define('KORE_GRID_FIFTH', 1/5);
+define('KORE_GRID_SIXTH', 1/6);
+// Just because we can
+define('KORE_GRID_SILLY', 1/42);
+
 /**
  *  Implements hook_theme().
  */
@@ -43,6 +54,7 @@ function kore_theme($existing, $type, $theme, $path) {
         'style_name' => NULL,
         'link' => NULL,
         'picture' => NULL,
+        'responsive' => TRUE,
       ),
       'file' => 'theme/kore_image.inc',
     ),
@@ -115,4 +127,32 @@ function kore_attributes_process(&$vars, $attributes) {
       $vars[$index] = array_merge($vars[$index], $attributes[$index]);
     }
   }
+}
+
+/**
+ * Calculates a column number based on columns in the total and current grid.
+ *
+ * @param int $percentage
+ *   Whole number version of the percentage to calculate.
+ * @param (optional) integer $total_columns
+ *   The total actual columns in the current row. Defaults to 2.
+ *
+ * @return int
+ *   The column count, rounded if necessary.
+ *
+ * @see kalatheme_grid_size().
+ */
+function kore_grid_size($percentage, $total_columns = 2) {
+  $columns = $percentage * KORE_GRID_SIZE;
+  // Deal with uneven division.
+  if (!is_integer($columns)) {
+    if ($columns > (KORE_GRID_SIZE / $total_columns)) {
+      $columns = floor($columns);
+    }
+    else {
+      $columns = ceil($columns);
+    }
+  }
+
+  return $columns;
 }

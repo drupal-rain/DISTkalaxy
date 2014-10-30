@@ -53,6 +53,7 @@ function ktopic_review_field_default_field_instances() {
       'module' => 'text',
       'settings' => array(
         'rows' => 20,
+        'show_token_tree' => FALSE,
         'summary_rows' => 5,
       ),
       'type' => 'text_textarea_with_summary',
@@ -148,6 +149,138 @@ function ktopic_review_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-kreview-kreview_cons'
+  $field_instances['node-kreview-kreview_cons'] = array(
+    'bundle' => 'kreview',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 5,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'kreview_cons',
+    'label' => 'Cons',
+    'required' => 0,
+    'settings' => array(
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'show_token_tree' => FALSE,
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 7,
+    ),
+  );
+
+  // Exported field_instance: 'node-kreview-kreview_pros'
+  $field_instances['node-kreview-kreview_pros'] = array(
+    'bundle' => 'kreview',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 4,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'kreview_pros',
+    'label' => 'Pros',
+    'required' => 0,
+    'settings' => array(
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'show_token_tree' => FALSE,
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 6,
+    ),
+  );
+
+  // Exported field_instance: 'node-kreview-kreview_score'
+  $field_instances['node-kreview-kreview_score'] = array(
+    'bundle' => 'kreview',
+    'default_value' => array(
+      0 => array(
+        'value' => 60,
+      ),
+    ),
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'number',
+        'settings' => array(
+          'decimal_separator' => '.',
+          'prefix_suffix' => TRUE,
+          'scale' => 0,
+          'thousand_separator' => ' ',
+        ),
+        'type' => 'number_integer',
+        'weight' => 6,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'kreview_score',
+    'label' => 'Score',
+    'required' => 0,
+    'settings' => array(
+      'max' => '',
+      'min' => '',
+      'prefix' => '',
+      'suffix' => '',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'number',
+      'settings' => array(),
+      'type' => 'number',
+      'weight' => 8,
+    ),
+  );
+
   // Exported field_instance: 'node-kreview-og_ktopic_ref'
   $field_instances['node-kreview-og_ktopic_ref'] = array(
     'bundle' => 'kreview',
@@ -210,7 +343,10 @@ function ktopic_review_field_default_field_instances() {
   // Translatables
   // Included for use with string extractors like potx.
   t('Body');
+  t('Cons');
   t('Cover image');
+  t('Pros');
+  t('Score');
   t('Topic');
 
   return $field_instances;

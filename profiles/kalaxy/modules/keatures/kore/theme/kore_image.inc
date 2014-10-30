@@ -39,6 +39,8 @@
  *       'fallback_image_style' => '',
  *       'attributes' => array(),
  *     ),
+ *     // Responsive to parent
+ *     'responsive' => TRUE,
  *   ),
  * );
  */
@@ -130,5 +132,10 @@ function template_preprocess_kore_image(&$vars) {
       'breakpoints' => $breakpoint_styles,
     );
     $vars += $picture;
+  }
+
+  // Responsive
+  if ($vars['responsive']) {
+    $vars['attributes']['class'] = 'img-responsive';
   }
 }
