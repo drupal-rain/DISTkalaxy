@@ -67,9 +67,9 @@
 	branch = 7.x-2.x
 
 [subtree "modules/base/eck"]
-	url = https://github.com/drupalprojects/eck.git
+	url = https://github.com/drupal-fork/eck.git
 	path = modules/base/eck
-	branch = 7.x-2.x
+	branch = fork1
 
 [subtree "modules/base/eck_extras"]
 	url = https://github.com/drupal-rain/eck_extras.git

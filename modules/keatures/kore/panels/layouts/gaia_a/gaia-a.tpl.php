@@ -2,24 +2,24 @@
   <section class="section">
     <div class="container">
       <div class="row">
-        <div class="col-md-<?php print kalatheme_grid_size(KALATHEME_GRID_FULL); ?> gaia-row1-region">
+        <div class="col-md-<?php print kore_grid_size(KORE_GRID_FULL); ?> gaia-row1-region">
           <?php print $content['row1']; ?>
         </div>
       </div>
     </div>
     <div class="container">
       <div class="row">
-        <div class="col-md-<?php print kalatheme_grid_size(KALATHEME_GRID_FOURTH * 3); ?> gaia-col1-region">
+        <div class="col-md-<?php print kore_grid_size(KORE_GRID_FOURTH * 3); ?> gaia-col1-region">
           <?php print $content['col1']; ?>
         </div>
-        <div class="col-md-<?php print kalatheme_grid_size(KALATHEME_GRID_FOURTH); ?> gaia-col2-region">
+        <div class="col-md-<?php print kore_grid_size(KORE_GRID_FOURTH); ?> gaia-col2-region">
           <?php print $content['col2']; ?>
         </div>
       </div>
     </div>
     <div class="container">
       <div class="row">
-        <div class="col-md-<?php print kalatheme_grid_size(KALATHEME_GRID_FULL); ?> gaia-row2-region">
+        <div class="col-md-<?php print kore_grid_size(KORE_GRID_FULL); ?> gaia-row2-region">
           <?php print $content['row2']; ?>
         </div>
       </div>

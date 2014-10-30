@@ -17,7 +17,9 @@ function kalaxy_install() {
   file_prepare_directory($dir, FILE_CREATE_DIRECTORY);
 
   // Enable shortcut in admin_menu.
-  $admin_menu_components = variable_get('admin_menu_components');
+  /*
+  $admin_menu_components = variable_get('admin_menu_components', array());
   $admin_menu_components += array('shortcut.link' => TRUE);
   variable_set('admin_menu_components', $admin_menu_components);
+  */
 }

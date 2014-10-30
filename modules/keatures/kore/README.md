@@ -1,30 +1,28 @@
 Image Styles
 ============
-* [Full]
-    * full_lg
-    * full_md
-    * full_sm
-    * full_xs
-* [3/4]
-    * 4-3_lg
-    * 4-3_md
-    * 4-3_sm
-    * 4-3_xs
-* [1/3]
-    * 3_1_lg
-    * 3_1_md
-    * 3_1_sm
-    * 3_1_xs
-* [1/4]
-    * 4-1_lg
-    * 4-1_md
-    * 4-1_sm
-    * 4-1_xs
-* [1/12]
-    * 12-1_lg
-    * 12-1_md
-    * 12-1_sm
-    * 12-1_xs
+* a 1140px
+* b 930px
+* c 768px
+* d 555px
+* e 360px
+* f 263px
+* g 165px
+* h 68px
+
+Theme
+=====
+* kore_image
+
+Panels Layouts
+==============
+* chaos 1
+* chronos 1/2, 1/2
+* gaia 3/4, 1/4
+    - gaia_a
+    - gaia_b
+* phanes 5/6, 1/6
+* poseidon 1/3, 1/3, 1/3
+* zeus 2/3, 1/3
 
 Form
 ====

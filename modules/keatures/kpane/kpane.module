@@ -36,9 +36,6 @@ function kpane_ctools_plugin_directory($owner, $plugin_type) {
   if (in_array($owner, array('kore', 'kpane'))) {
     return 'plugins/' . $plugin_type;
   }
-  if ($owner == 'panels') {
-    return 'panels/' . $plugin_type;
-  }
 }
 
 /**
@@ -216,9 +213,10 @@ function kpane_preprocess_panels_pane(&$vars) {
 function kpane_preprocess_fieldable_panels_pane(&$vars) {
   //dsm($vars);
   $entity = $vars['elements']['#fieldable_panels_pane'];
+  $settings = $entity->settings;
   // CSS Classes
   // Settings: Use entity CSS class.
-  if (!$entity->settings['css']['entity_class']) {
+  if (!$settings['css']['entity_class']) {
     foreach ($vars['classes_array'] as $key => $css_class) {
       if ($css_class == 'fieldable-panels-pane') {
         unset($vars['classes_array'][$key]);
@@ -226,21 +224,29 @@ function kpane_preprocess_fieldable_panels_pane(&$vars) {
     }
   }
   // Settings: Use bundle CSS class.
-  if ($entity->settings['css']['bundle_class']) {
+  if ($settings['css']['bundle_class']) {
     $vars['classes_array'][] = $entity->bundle;
   }
   // Settings: Add CSS classes.
-  if (!empty($entity->settings['css']['classes'])) {
-    $vars['classes_array'][] = check_plain($entity->settings['css']['classes']);
+  if (!empty($settings['css']['classes'])) {
+    $vars['classes_array'][] = check_plain($settings['css']['classes']);
+  }
+  // Predefined classes
+  if (isset($settings['css']['classes_predefined']) && $settings['css']['classes_predefined']['used']) {
+    $vars['classes_array'][] = implode(' ', $settings['css']['classes_predefined']['used']);
+  }
+  // Style
+  if (!empty($settings['css']['style'])) {
+    $vars['attributes_array']['style'][] = $settings['css']['style'];
   }
 
   // Title
-  if ($entity->settings['display']['title']) {
+  if ($settings['display']['title']) {
     $vars['title'] = $entity->title;
     if ($entity->link) {
       $vars['title'] = l($vars['title'], $entity->path);
     }
-    $vars['tag'] = $entity->settings['display']['title_tag'];
+    $vars['tag'] = $settings['display']['title_tag'];
   }
 
   // Plugin Callback: 'template preprocess'
@@ -283,6 +289,7 @@ function kpane_fieldable_panels_panes_entity_settings_form_alter(&$form, &$form_
     '#type' => 'fieldset',
     '#title' => t('CSS'),
     '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
   );
   $form['settings']['css']['entity_class'] = array(
     '#type' => 'checkbox',
@@ -298,6 +305,26 @@ function kpane_fieldable_panels_panes_entity_settings_form_alter(&$form, &$form_
     '#type' => 'textfield',
     '#title' => t('Add CSS classes'),
     '#default_value' => kpane_settings_global_default_value($entity, array('css', 'classes'), ''),
+  );
+  $plugin = kpane_plugin_get_plugins($entity->bundle);
+  if ($plugin['classes']) {
+    $form['settings']['css']['classes_predefined'] = array(
+      '#type'        => 'fieldset',
+      '#title'       => t('Choose predefined classes'),
+      '#collapsible' => TRUE,
+      '#collapsed'   => TRUE,
+    );
+    $form['settings']['css']['classes_predefined']['used'] = array(
+      '#type'    => 'checkboxes',
+      '#title'   => t('Predefined classes'),
+      '#options' => $plugin['classes'],
+      '#default_value' => kpane_settings_global_default_value($entity, array('css', 'classes_predefined', 'used'), array()),
+    );
+  }
+  $form['settings']['css']['style'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Element inline style'),
+    '#default_value' => kpane_settings_global_default_value($entity, array('css', 'style'), ''),
   );
 
   // Display
@@ -331,6 +358,8 @@ function kpane_fieldable_panels_panes_entity_settings_form_alter(&$form, &$form_
     $form['settings'][$id] += $callback($form, $form_state, $entity);
   }
 
+  // Provide hook for others to alter this form.
+  drupal_alter('kpane_settings_form', $form, $form_state);
 }
 
 // =============================================================================

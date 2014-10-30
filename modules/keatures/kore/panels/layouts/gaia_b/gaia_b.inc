@@ -1,8 +1,9 @@
 <?php
+
 $plugin = array(
   'title' => t('Gaia B'),
   'icon' => 'gaia-b.png',
-  'category' => t('Kpane'),
+  'category' => t('Kalaxy'),
   'theme' => 'gaia-b',
   'css' => 'gaia-b.css',
   'regions' => array(

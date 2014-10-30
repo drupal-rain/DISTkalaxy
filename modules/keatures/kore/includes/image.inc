@@ -10,9 +10,11 @@ function kore_image_prepare($image, $id, $settings) {
     $settings = $settings[$id];
   }
 
+  // Renderable element
   $element = array(
-    '#fid' => $image,
     '#theme' => 'kore_image',
+    '#fid' => $image,
+    '#responsive' => $settings['responsive'],
   );
   if ($settings['image_style'] != 'none') {
     if ($settings['image_style'] != 'picture') {
@@ -36,6 +38,7 @@ function kore_image_settings_default() {
     'image_style' => 'picture',
     'picture_mapping' => $picture_mapping,
     'fallback_image_style' => '',
+    'responsive' => TRUE,
   );
 }
 
@@ -59,6 +62,17 @@ function kore_image_settings_form($id, $prefix, $settings) {
 
 
   // Initiate
+  if (is_array($id)) {
+    foreach ($id as $child) {
+      $settings = $settings[$child];
+    }
+  }
+  else {
+    $settings = $settings[$id];
+  }
+  if (!isset($settings)) {
+    $settings = array();
+  }
   $settings += kore_image_settings_default();
 
   $form = array(
@@ -68,6 +82,7 @@ function kore_image_settings_form($id, $prefix, $settings) {
     '#tree' => TRUE,
   );
 
+  // Type
   $image_styles = image_style_options(FALSE);
   $image_styles_options = array('none' => t('<< None >>'), 'picture' => t('<< Picture >>')) + $image_styles;
   $form['image_style'] = array(
@@ -77,6 +92,7 @@ function kore_image_settings_form($id, $prefix, $settings) {
     '#default_value' => $settings['image_style'],
   );
 
+  // Picture
   $options = picture_get_mapping_options();
   if ($options) {
     $form['picture_mapping'] = array(
@@ -119,6 +135,13 @@ function kore_image_settings_form($id, $prefix, $settings) {
   );
   $form['picture_mapping'] += $picture_states;
   $form['fallback_image_style'] += $picture_states;
+
+  // Responsive
+  $form['responsive'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Responsive to parent'),
+    '#default_value' => $settings['responsive'],
+  );
 
   return $form;
 }

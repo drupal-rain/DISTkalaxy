@@ -2,6 +2,9 @@
 
 $plugin = array(
   'css' => 'posts.css',
+  'classes' => array(
+    'posts-hover-highlight' => '.posts-hover-highlight',
+  ),
 );
 
 function kpane_kpane_posts_bundle_info() {
@@ -104,6 +107,13 @@ function kpane_kpane_posts_settings_form($form_orig, &$form_state, $context) {
       '#default_value' => kpane_settings_default_value($context, array('display', $component), TRUE),
     );
   }
+  kore_include('heading');
+  $form['display']['title_tag'] = array(
+    '#type' => 'select',
+    '#title' => t('Title tag'),
+    '#options' => kore_heading_tag_options(),
+    '#default_value' => kpane_settings_default_value($context, array('display', 'title_tag'), 'h3'),
+  );
 
   // Links
   $components = array('image', 'title', 'body', 'wrapper');
@@ -167,6 +177,7 @@ function _kpane_kpane_posts_template_preprocess(&$variables, $vars, $context) {
     $item = array(
       'image' => array('path' => $entity->kpost_image[LANGUAGE_NONE][0]['uri'],),
       'title' => $entity->title,//render($formatters['title']),
+      'title_tag' => $settings['title_tag'],
       'body' => $entity->body, // render($formatters['body']), // check_markup($entity->body, 'html'),
     );
     // Image

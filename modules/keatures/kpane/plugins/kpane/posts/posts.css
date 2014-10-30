@@ -1,0 +1,13 @@
+.posts-hover-highlight a {
+  display: block;
+}
+
+.posts-hover-highlight a:focus,
+.posts-hover-highlight a:hover {
+  background-color: #ffff00;
+}
+
+.posts-hover-highlight .media,
+.posts-hover-highlight .thumbnail {
+  background-color: transparent;
+}

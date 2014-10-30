@@ -36,4 +36,7 @@ function kore_ctools_plugin_directory($owner, $plugin_type) {
   if ($owner == 'kore') {
     return 'plugins/' . $plugin_type;
   }
+  if ($owner == 'panels') {
+    return 'panels/' . $plugin_type;
+  }
 }
