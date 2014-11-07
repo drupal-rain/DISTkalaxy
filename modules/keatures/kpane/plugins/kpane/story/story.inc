@@ -6,6 +6,29 @@ $plugin = array(
     'split' => array(),
     'combine' => array(),
   ),
+  'display' => array(
+    'split' => array(
+      'label' => t('Split'),
+      'style' => array(
+        'left' => array(
+          'label' => t('Media on left')
+        ),
+        'top' => array(
+          'label' => t('Media on top')
+        ),
+        'right' => array(
+          'label' => t('Media on right')
+        ),
+        'bottom' => array(
+          'label' => t('Media on bottom')
+        ),
+      ),
+    ),
+    'combine' => array(
+      'label' => t('Combine'),
+      'style' => array(),
+    ),
+  ),
 );
 
 function kpane_kpane_story_template_preprocess(&$vars, $context) {

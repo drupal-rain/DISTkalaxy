@@ -8,14 +8,6 @@ $plugin = array(
   ),
 );
 
-function kpane_kpane_picture_bundle_info() {
-  return _kpane_plugin_bundle_info('picture');
-}
-
-function kpane_kpane_picture_theme_registry($existing, $type, $theme, $path) {
-  return _kpane_plugin_theme_registry('picture');
-}
-
 function kpane_kpane_picture_template_preprocess(&$vars, $context) {
   kpane_include('image');
   $vars['picture'] = kpane_image_prepare_kore_image($vars['kpane_picture_image'][0]['fid'], 'image', $context);

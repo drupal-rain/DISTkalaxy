@@ -108,6 +108,7 @@ function kfield_mod_field_extra() {
 }
 
 // =============================================================================
+// Utility, Helper
 
 /**
  * Load taxonomy term(s) by name in specific vocabulary.
