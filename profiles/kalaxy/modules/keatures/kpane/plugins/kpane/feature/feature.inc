@@ -2,48 +2,31 @@
 
 $plugin = array(
   'css' => 'feature.css',
+  'display' => array(
+    'right' => array(
+      'label' => t('Picture (Right)')
+    ),
+  ),
 );
-
-function kpane_kpane_feature_bundle_info() {
-  return _kpane_plugin_bundle_info('feature');
-}
-
-function kpane_kpane_feature_theme_registry($existing, $type, $theme, $path) {
-  $registry = _kpane_plugin_theme_registry('feature');
-
-  $plugin = kpane_plugin_get_plugins('feature');
-  $registry['fieldable_panels_pane__feature__right'] = array (
-    'base hook' => 'fieldable_panels_pane',
-    'render element' => 'elements',
-    'path' => $plugin['path'],
-    'template' => 'feature--right',
-  );
-
-  return $registry;
-}
 
 // Prepare variables for template:
 // * $intro
 // * $picture
 // * $items
 function kpane_kpane_feature_template_preprocess(&$vars, $context) {
+  // Narrow mode
   if ($context->settings['feature']['narrow']) {
     $vars['classes_array'][] = 'narrow';
   }
-  // Display picture on the right.
-  if ($context->settings['feature']['right']) {
-    $vars['theme_hook_suggestions'][] = 'fieldable_panels_pane__feature__right';
+  // Intro
+  if ($context->kpane_feature_intro) {
+    $vars['intro'] = field_view_value(KPANE_ENTITY, $context, 'kpane_feature_intro',
+      $vars['kpane_feature_intro'][0], array(
+        'label' => 'hidden',
+      )
+    );
   }
-  $vars['intro'] = field_view_value(KPANE_ENTITY, $context, 'kpane_feature_intro',
-    $vars['kpane_feature_intro'][0], array(
-      'label' => 'hidden',
-    )
-  );
   // Image
-  /*
-  kpane_include('picture');
-  $vars['picture'] = kpane_picture_template_variable('picture', $entity, 'kpane_feature_image');
-  */
   kpane_include('image');
   $vars['picture'] = kpane_image_prepare_kore_image($vars['kpane_feature_image'][0]['fid'], 'image', $context);
   // Items
@@ -61,14 +44,6 @@ function kpane_kpane_feature_settings_form($form_orig, &$form_state, $context) {
     '#title' => t('Narrow Mode'),
     '#description' => t('Better display style for narrow column.'),
     '#default_value' => kpane_settings_default_value($context, 'narrow', FALSE),
-  );
-
-  // Display Picture on the Right
-  $form['right'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Picture on the Right'),
-    '#description' => t('Display picture on the right (Default: on the left).'),
-    '#default_value' => kpane_settings_default_value($context, 'right', FALSE),
   );
 
   // Image

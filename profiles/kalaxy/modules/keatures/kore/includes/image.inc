@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Helper function to prepare $variables for theme().
+ */
 function kore_image_prepare($image, $id, $settings) {
   if (is_array($id)) {
     foreach ($id as $child) {
@@ -16,6 +19,10 @@ function kore_image_prepare($image, $id, $settings) {
     '#fid' => $image,
     '#responsive' => $settings['responsive'],
   );
+  if (isset($settings['link'])) {
+    $element['#link'] = $settings['link'];
+    unset($settings['link']);
+  }
   if ($settings['image_style'] != 'none') {
     if ($settings['image_style'] != 'picture') {
       $element['#style_name'] = $settings['image_style'];

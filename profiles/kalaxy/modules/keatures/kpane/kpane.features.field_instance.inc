@@ -230,14 +230,14 @@ function kpane_field_default_field_instances() {
             'pathauto' => 0,
             'transliterate' => 0,
           ),
-          'value' => '[file:ffp-name-only-original].[file:ffp-extension-original]',
+          'value' => '[file:ffp-name-only].[file:ffp-extension-original]',
         ),
         'file_path' => array(
           'options' => array(
             'pathauto' => 0,
             'transliterate' => 0,
           ),
-          'value' => '',
+          'value' => 'pane/[fieldable_panels_pane:fpid]',
         ),
         'retroactive_update' => 0,
       ),
@@ -341,7 +341,7 @@ function kpane_field_default_field_instances() {
     ),
     'entity_type' => 'kpost',
     'field_name' => 'kpost_image',
-    'label' => 'Kpost_image',
+    'label' => 'Image',
     'required' => 0,
     'settings' => array(
       'alt_field' => 0,
@@ -364,7 +364,7 @@ function kpane_field_default_field_instances() {
           ),
           'value' => 'post/[kpost:id]',
         ),
-        'retroactive_update' => 1,
+        'retroactive_update' => 0,
       ),
       'filefield_paths_enabled' => 1,
       'max_filesize' => '',
@@ -459,7 +459,6 @@ function kpane_field_default_field_instances() {
   t('Image');
   t('Intro');
   t('Items');
-  t('Kpost_image');
   t('Link');
   t('Longtext');
   t('Posts');

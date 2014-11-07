@@ -4,7 +4,8 @@ Provide useful features to compose article by using panels panes.
 
 Plugin: Kpane
 =============
-
+* settings (Required) // @todo
+    - Default settings value.
 * bundle info (Optional)
     - Callback: MODULE_PLUGIN-TYPE_PLUGIN_bundle_info().
     - @see kpane_plugin_get_function().
@@ -23,6 +24,14 @@ Plugin: Kpane
     - Callback: MODULE_PLUGIN-TYPE_PLUGIN_settings_form($form_orig, &$form_state, $context).
 * reset (Optional)
     - As initiate and reset.
+* css (Optional)
+    - Attach css file.
+* js (Optional)
+    - Attach js file.
+* classes (Optional)
+    - Predefined CSS classes.
+
+
 
 Kpane Types
 ===========
@@ -37,3 +46,19 @@ Kpane Types
 * posts
 * quote
 * whitespace
+
+Kpane Template
+==============
+* kpane_KPANE
+* kpane_KPANE_DISPLAY
+* kpane_KPANE_DISPLAY_STYLE
+* kpane_KPANE[_DISPLAY][_STYLE]__IDENTITY (So theme can easily override a single pane.)
+
+
+Current Development Strategy for Kpane
+======================================
+* Develop and use in experiment.
+* Update the db if necessary.
+* Create a new 'display' or even 'kpane' when needed.
+
+

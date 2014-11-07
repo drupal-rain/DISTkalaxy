@@ -34,3 +34,8 @@
 .form-inline .form-item {
   margin-left: 2rem;
 }
+
+/* Fix views */
+.view-content.row {
+  margin: 0;
+}

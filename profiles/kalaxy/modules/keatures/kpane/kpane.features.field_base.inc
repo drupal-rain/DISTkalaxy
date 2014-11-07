@@ -162,14 +162,7 @@ function kpane_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'kpane_posts_ref',
-    'foreign keys' => array(
-      'eck_kpost' => array(
-        'columns' => array(
-          'target_id' => 'id',
-        ),
-        'table' => 'eck_kpost',
-      ),
-    ),
+    'foreign keys' => array(),
     'indexes' => array(
       'target_id' => array(
         0 => 'target_id',

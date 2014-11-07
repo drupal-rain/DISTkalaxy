@@ -44,6 +44,7 @@
  *   ),
  * );
  */
+// Current $variables
 /*
 $vars = array(
   'type' => 'image',
@@ -67,6 +68,8 @@ $vars = array(
     'fallback_image_style' => '',
     'attributes' => array(),
   ),
+  // Responsive to parent
+  'responsive' => TRUE,
 );
 */
 
