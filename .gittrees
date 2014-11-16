@@ -11,6 +11,11 @@
 	path = modules/base/admin_menu
 	branch = 7.x-3.x
 
+[subtree "modules/base/adminimal_admin_menu"]
+	url = http://git.drupal.org/project/adminimal_admin_menu.git
+	path = modules/base/adminimal_admin_menu
+	branch = 7.x-1.x
+
 [subtree "modules/base/bootstrap_library"]
 	url = https://github.com/drupalprojects/bootstrap_library.git
 	path = modules/base/bootstrap_library
@@ -510,6 +515,11 @@
 
 ###############################################################################
 # themes    
+
+[subtree "themes/adminimal_theme"]
+	url = http://git.drupal.org/project/adminimal_theme.git
+	path = themes/adminimal_theme
+	branch = 7.x-1.x
 
 [subtree "themes/kala"]
 	url = https://github.com/drupal-rain/kala.git

@@ -34,7 +34,7 @@ dependencies[] = taxonomy
 
 ; admin_menu
 dependencies[] = admin_menu
-dependencies[] = admin_menu_toolbar
+dependencies[] = adminimal_admin_menu
 dependencies[] = ctools
 ; entity
 dependencies[] = entity
