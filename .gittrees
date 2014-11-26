@@ -316,11 +316,6 @@
 	path = modules/base/views_bulk_operations
 	branch = 7.x-3.x
 
-[subtree "modules/common/views_term_hierarchy_weight_field"]
-	url = https://github.com/drupalprojects/views_term_hierarchy_weight_field.git
-	path = modules/common/views_term_hierarchy_weight_field
-	branch = 7.x-1.x
-
 [subtree "modules/base/xautoload"]
 	url = https://github.com/drupalprojects/xautoload.git
 	path = modules/base/xautoload
