@@ -2120,6 +2120,10 @@ function file_scan_directory($dir, $mask, $options = array(), $depth = 0) {
 
   $options['key'] = in_array($options['key'], array('uri', 'filename', 'name')) ? $options['key'] : 'uri';
   $files = array();
+  // Allow ignoring the folder, intend for folder that contains too many useless files.
+  if (file_exists($dir . '/.scanignore')) {
+    return $files;
+  }
   if (is_dir($dir) && $handle = opendir($dir)) {
     while (FALSE !== ($filename = readdir($handle))) {
       if (!preg_match($options['nomask'], $filename) && $filename[0] != '.') {
