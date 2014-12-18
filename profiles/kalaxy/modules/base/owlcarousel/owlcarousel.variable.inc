@@ -201,7 +201,7 @@ function owlcarousel_variable_info($options) {
   $variable['owlcarousel_navigation_text_[instance_id]'] = array(
     'type' => 'multiple',
     'title' => t('Navigation Text', array(), $options),
-    'description' => t('You can cusomize your own text for navigation.', array(), $options),
+    'description' => t('You can customize your own text for navigation.', array(), $options),
     'repeat' => array(
       'type' => 'array',
       'default' => array('prev', 'next'),
