@@ -12,7 +12,6 @@ function owlcarousel_theme() {
   return array(
     'owlcarousel' => array(
       'variables' => array('items' => array(), 'settings' => array()),
-      'template' => 'theme/owlcarousel',
       'file' => 'theme/owlcarousel.theme.inc',
     ),
     'owlcarousel_list' => array(
@@ -21,6 +20,10 @@ function owlcarousel_theme() {
     ),
     'owlcarousel_list_item' => array(
       'variables' => array('item' => array(), 'class' => ''),
+      'file' => 'theme/owlcarousel.theme.inc',
+    ),
+    'owlcarousel_wrapper' => array(
+      'variables' => array('output' => array()),
       'file' => 'theme/owlcarousel.theme.inc',
     ),
     'owlcarousel_admin_settings_form' => array(
@@ -64,45 +67,6 @@ function owlcarousel_library() {
   );
 
   return $libraries;
-}
-
-/**
- * Loads carousel instance settings.
- *
- * @param string $instance
- *  Settings group machine name.
- *
- * @param string $carousel
- *  Carousel HTML selector.
- */
-function owlcarousel_initiate_instance($instance, $carousel) {
-  $version = variable_get('jquery_update_jquery_version', FALSE);
-  if (!$version || $version == '1.5') {
-    drupal_set_message(t('The installed jQuery version is not supported by Owl Carousel.'), 'error', FALSE);
-  }
-
-  // Include library.
-  drupal_add_library('owlcarousel', 'owlcarousel');
-
-  // Load carousel settings from the instance id.
-  $settings = _owlcarousel_return_carousel_instance_settings($instance);
-
-  // Provide alter for instance settings.
-  drupal_alter('owlcarousel_settings', $settings, $instance);
-
-  // Include instance settings.
-  drupal_add_js(array(
-    'owlcarousel' => array(
-      $carousel => array(
-        'settings' => $settings,
-        'views' => array(
-          'ajax_pagination' => variable_get('owlcarousel_override_ajax_pagination_' . $instance)
-        ),
-      )
-    ),
-  ), 
-  'setting');
-  drupal_add_js(drupal_get_path('module', 'owlcarousel') . '/includes/js/owlcarousel.settings.js', array('scope' => 'footer', 'type' => 'file'));
 }
 
 /**
