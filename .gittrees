@@ -249,7 +249,7 @@
 [subtree "modules/base/rules"]
 	url = https://github.com/drupalprojects/rules.git
 	path = modules/base/rules
-	branch = 7.x-2.7
+	branch = 7.x-2.8
 
 [subtree "modules/base/safeword"]
 	url = https://github.com/drupal-fork/safeword.git
