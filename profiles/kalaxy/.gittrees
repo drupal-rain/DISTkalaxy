@@ -11,6 +11,11 @@
 	path = modules/base/admin_menu
 	branch = 7.x-3.x
 
+[subtree "modules/base/admin_menu_toggle"]
+	url = https://github.com/drupal-rain/admin_menu_toggle.git
+	path = modules/base/admin_menu_toggle
+	branch = 7.x-1.x
+
 [subtree "modules/base/adminimal_admin_menu"]
 	url = http://git.drupal.org/project/adminimal_admin_menu.git
 	path = modules/base/adminimal_admin_menu
