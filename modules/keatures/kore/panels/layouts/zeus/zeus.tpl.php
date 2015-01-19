@@ -1,14 +1,10 @@
-<div class="panel-display zeus clearfix <?php !empty($class) ? print $class : ''; ?>" <?php !empty($css_id) ? print "id=\"$css_id\"" : ''; ?>>
-  <section class="section">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-<?php print kore_grid_size(KORE_GRID_THIRD * 2); ?> zeus-col1-region">
-          <?php print $content['col1']; ?>
-        </div>
-        <div class="col-md-<?php print kore_grid_size(KORE_GRID_THIRD); ?> zeus-col2-region">
-          <?php print $content['col2']; ?>
-        </div>
-      </div>
+<div class="panel-display zeus clearfix" <?php !empty($css_id) ? print "id=\"$css_id\"" : ''; ?>>
+  <div class="row">
+    <div class="zeus-col1-region medium-8 columns">
+      <?php print $content['col1']; ?>
     </div>
-  </section>
+    <div class="zeus-col2-region medium-4 columns">
+      <?php print $content['col2']; ?>
+    </div>
+  </div>
 </div>

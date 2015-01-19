@@ -103,7 +103,7 @@ function theme_kore_image($vars) {
 }
 
 function template_preprocess_kore_image(&$vars) {
-  // Allow only pass in fid.
+  // Allow to only pass in fid.
   if (empty($vars['path'])) {
     $file = file_load($vars['fid']);
     $vars['path'] = $file->uri;

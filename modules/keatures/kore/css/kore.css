@@ -1,12 +1,10 @@
-.row.no-gutter {
-  margin-left: 0;
-  margin-right: 0;
-}
 
-.row.no-gutter [class*='col-']:not(:first-child),
-.row.no-gutter [class*='col-']:not(:last-child) {
-  padding-right: 0;
-  padding-left: 0;
+/* Layout Styles */
+.full {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: initial;
 }
 
 /* Narrow Style */
@@ -18,12 +16,25 @@
   font-size: 12px;
 }
 
-/* Only Above Middle */
-@media (min-width: 992px) {
-  .vertical-align {
-    display: flex;
-    align-items: center;
-  }
+.row.no-gutter {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.row.no-gutter [class*='col-']:not(:first-child),
+.row.no-gutter [class*='col-']:not(:last-child) {
+  padding-right: 0;
+  padding-left: 0;
+}
+
+/* Vertical align two or some items */
+.vertical-align {
+  display: flex;
+  align-items: center;
+}
+
+.vertical-align.space-between {
+  justify-content: space-between;
 }
 
 /* Inline Form */

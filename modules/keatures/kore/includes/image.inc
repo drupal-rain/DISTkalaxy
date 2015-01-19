@@ -49,6 +49,9 @@ function kore_image_settings_default() {
   );
 }
 
+/**
+ * UI form for 'kore_image' settings.
+ */
 function kore_image_settings_form($id, $prefix, $settings) {
   $index = '';
   $input_id = ':input[name="' . $prefix;

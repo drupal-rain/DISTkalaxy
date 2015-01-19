@@ -1,3 +1,4 @@
+
 (function($) {
   Drupal.behaviors.koreThumbnail = {
     attach: function (context, settings) {
