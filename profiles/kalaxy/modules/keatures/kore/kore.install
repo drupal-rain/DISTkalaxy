@@ -1,0 +1,9 @@
+<?php
+
+/**
+ * Implements hook_field_schema().
+ */
+function kore_field_schema($field) {
+  $class = kore_component_get_class('Field', $field['type']);
+  return $class::schema($field);
+}

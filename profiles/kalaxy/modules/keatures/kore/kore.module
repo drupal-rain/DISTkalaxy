@@ -1,12 +1,24 @@
 <?php
 
+include_once 'kore.system.inc';
+
 include_once 'kore.features.inc';
 
-include_once 'kore.form.inc';
-include_once 'kore.theme.inc';
+require_once 'kore.menu.inc';
+require_once 'kore.field.inc';
+require_once 'kore.entity.inc';
+require_once 'kore.node.inc';
+require_once 'kore.form.inc';
+require_once 'kore.theme.inc';
 
-include_once 'kore.kitem.inc';
-include_once 'kore.klist.inc';
+require_once 'kore.info.callback.inc';
+require_once 'kore.kdata.inc';
+
+require_once 'kore.kitem.inc';
+require_once 'kore.klist.inc';
+
+// Kore Component Utility
+require_once 'kore.component.inc';
 
 /**
  * Wrapper for ctools_include().
@@ -16,7 +28,7 @@ function kore_include($file, $dir = 'includes') {
 }
 
 /**
- *  Implements hook_ctools_plugin_type().
+ * Implements hook_ctools_plugin_type().
  */
 function kore_ctools_plugin_type() {
   return array(
@@ -30,7 +42,7 @@ function kore_ctools_plugin_type() {
 }
 
 /**
- *  Implements hook_ctools_plugin_directory().
+ * Implements hook_ctools_plugin_directory().
  */
 function kore_ctools_plugin_directory($owner, $plugin_type) {
   if ($owner == 'kore') {
@@ -39,4 +51,38 @@ function kore_ctools_plugin_directory($owner, $plugin_type) {
   if ($owner == 'panels') {
     return 'panels/' . $plugin_type;
   }
+
+  return $owner . '/' . $plugin_type;
+}
+
+/**
+ * Implements hook_views_api().
+ */
+function kore_views_api() {
+  return array(
+    'api' => 3,
+    //'path' => drupal_get_path('module', 'kore') . '/views',
+    //'template path' => drupal_get_path('module', 'kore') . '/views/theme',
+  );
+}
+
+/**
+ * Implements hook_archiver_info_alter().
+ */
+function kore_archiver_info_alter(&$info) {
+  // Use a more robust one.
+  $info['zip']['class'] = 'ArchiverZipFile';
+}
+
+/**
+ *
+ */
+function kore_foundation_sizes() {
+  return array(
+    'small',
+    'medium',
+    'large',
+    'xlarge',
+    'xxlarge',
+  );
 }

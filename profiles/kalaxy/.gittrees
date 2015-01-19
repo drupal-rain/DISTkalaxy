@@ -146,6 +146,11 @@
 	path = modules/base/jquery_update
 	branch = 7.x-2.x
 
+[subtree "modules/base/ko"]
+	url = https://github.com/drupal-rain/ko.git
+	path = modules/base/ko
+	branch = 7.x-1.x
+
 [subtree "modules/base/ktools"]
 	url = https://github.com/drupal-rain/ktools.git
 	path = modules/base/ktools
@@ -496,7 +501,7 @@
 [subtree "modules/keatures/kore"]
 	url = https://github.com/drupal-rain/kore.git
 	path = modules/keatures/kore
-	branch = 7.x-1.x
+	branch = 7.x-2.x
 
 [subtree "modules/keatures/kpane"]
 	url = https://github.com/drupal-rain/kpane.git
