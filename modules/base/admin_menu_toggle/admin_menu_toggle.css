@@ -1,0 +1,25 @@
+
+#admin-menu-toggle {
+  color: white;
+  background-color: black;
+  float: left;
+  padding: 5px;
+}
+
+#admin-menu.admin-menu-compress #admin-menu-toggle:before {
+  content: ">>";
+}
+
+#admin-menu:not(.admin-menu-compress) #admin-menu-toggle:before {
+  content: "<<";
+}
+
+#admin-menu-toggle:hover {
+  cursor: pointer;
+}
+
+#admin-menu.admin-menu-compress {
+  background-color: transparent;
+  border: none;
+  width: 0;
+}

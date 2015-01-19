@@ -1,0 +1,52 @@
+<?php
+
+/**
+ * Implements hook_page_alter().
+ */
+function admin_menu_toggle_page_build(&$page) {
+  // Fix the hidden top margin.
+  $page['page_bottom']['admin_menu_toggle']['#attached']['js'][] = array(
+    'data' => array('tableHeaderOffset' => 'Drupal.admin.toggleHeight'),
+    'type' => 'setting',
+  );
+}
+
+/**
+ * Implements hook_admin_menu_output_alter().
+ */
+function admin_menu_toggle_admin_menu_output_alter(&$content) {
+  if (variable_get('admin_menu_toggle_on', TRUE)) {
+    if (variable_get('admin_menu_toggle_hide', FALSE) == FALSE) {
+      $content['#prefix'] = str_replace('<div id="admin-menu-wrapper">',
+        '<div id="admin-menu-toggle" class="toggle-hide"></div><div id="admin-menu-wrapper">',
+        $content['#prefix']);
+    }
+    else {
+      $content['#prefix'] = str_replace('<div id="admin-menu-wrapper">',
+        '<div id="admin-menu-toggle" class="toggle-show"></div><div id="admin-menu-wrapper" class="element-hidden">',
+        $content['#prefix']);
+      $content['#prefix'] = str_replace('<div id="admin-menu" class="', '<div id="admin-menu" class="admin-menu-compress ', $content['#prefix']);
+    }
+  }
+}
+
+/**
+ * Implements hook_form_FORM_alter().
+ */
+function admin_menu_toggle_form_admin_menu_theme_settings_alter(&$form, &$form_state, $form_id) {
+  $form['toggle'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Toggle'),
+    '#group' => 'advanced',
+  );
+  $form['toggle']['admin_menu_toggle_on'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Turn on'),
+    '#default_value' => variable_get('admin_menu_toggle_on', TRUE),
+  );
+  $form['toggle']['admin_menu_toggle_hide'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Hidden by default'),
+    '#default_value' => variable_get('admin_menu_toggle_hide', FALSE),
+  );
+}

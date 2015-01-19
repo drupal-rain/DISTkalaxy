@@ -1,0 +1,10 @@
+name = Admin Menu Toggle
+description = Toggle show/hide the administration menu.
+core = 7.x
+package = Administration
+version = 7.x-0.5
+
+dependencies[] = admin_menu
+
+stylesheets[all][] = admin_menu_toggle.css
+scripts[] = admin_menu_toggle.js
