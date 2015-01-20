@@ -68,8 +68,3 @@ dependencies[] = backup_migrate
 dependencies[] = devel
 dependencies[] = ktools
 dependencies[] = schema
-
-; -----------------------------------------------------------------------------
-; Theme
-
-dependencies[] = adminimal
