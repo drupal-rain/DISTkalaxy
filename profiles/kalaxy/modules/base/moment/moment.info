@@ -1,0 +1,6 @@
+name = Moment.js
+description = Integrate Moment.js library into Drupal.
+package = Libraries
+core = 7.x
+
+dependencies[] = libraries

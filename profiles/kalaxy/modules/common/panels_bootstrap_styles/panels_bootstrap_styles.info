@@ -1,5 +1,0 @@
-name = Panels Bootstrap Styles
-description = Pane & region styles for panels module using the Twitter Bootstrap css framework.
-package = Panels
-dependencies[] = panels
-core = 7.x
