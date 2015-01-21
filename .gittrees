@@ -186,6 +186,11 @@
 	path = modules/base/module_filter
 	branch = 7.x-2.x
 
+[subtree "modules/base/moment"]
+	url = http://git.drupal.org/project/moment.git
+	path = modules/base/moment
+	branch = 7.x-2.x
+
 [subtree "modules/base/name"]
 	url = https://github.com/drupalprojects/name.git
 	path = modules/base/name
@@ -403,11 +408,6 @@
 	url = https://github.com/drupalprojects/multiupload_imagefield_widget.git
 	path = modules/common/multiupload_imagefield_widget
 	branch = 7.x-1.3
-
-[subtree "modules/common/panels_bootstrap_styles"]
-	url = https://github.com/drupal-issue/panels_bootstrap_styles.git
-	path = modules/common/panels_bootstrap_styles
-	branch = 2361905
 
 [subtree "modules/common/select_or_other"]
 	url = https://github.com/drupalprojects/select_or_other.git
