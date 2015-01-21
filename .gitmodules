@@ -1,0 +1,3 @@
+[submodule "profiles/kalaxy"]
+	path = profiles/kalaxy
+	url = https://github.com/drupal-rain/kalaxy.git
