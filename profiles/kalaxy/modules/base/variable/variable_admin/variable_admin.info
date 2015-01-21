@@ -1,5 +1,0 @@
-name = Variable admin
-description = Variable Administration UI
-dependencies[] = variable
-package = Variable
-core = 7.x

@@ -1,4 +1,0 @@
-name = Libraries test theme
-description = Tests that themes can provide and alter library information.
-core = 7.x
-hidden = TRUE

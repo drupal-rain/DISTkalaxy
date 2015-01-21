@@ -1,6 +1,0 @@
-name = "ThemeKey Redirect"
-description = "Provides an additional rule chain to define rules to redirect the user."
-core = 7.x
-dependencies[] = themekey
-package = ThemeKey
-configure = admin/config/user-interface/themekey/redirects
