@@ -12,10 +12,8 @@ require_once 'kore.form.inc';
 require_once 'kore.theme.inc';
 
 require_once 'kore.info.callback.inc';
-require_once 'kore.kdata.inc';
 
 require_once 'kore.kitem.inc';
-require_once 'kore.klist.inc';
 
 // Kore Component Utility
 require_once 'kore.component.inc';
