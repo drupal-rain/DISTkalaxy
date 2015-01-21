@@ -99,7 +99,11 @@ function kore_node_kdata_enabled($node, $reset = FALSE) {
   return kore_node_type_kdata_enabled($node->type, $reset);
 }
 
-// Entity id indexed kdata entities.
+/**
+ * Get all the Kdata attached to the node.
+ *
+ * Entity id indexed kdata entities.
+ */
 function kore_node_kdata_get_entities_flat($node) {
   $items = field_get_items('node', $node, kore_node_kdata_field_name($node));
   $list = array();
@@ -108,6 +112,7 @@ function kore_node_kdata_get_entities_flat($node) {
     foreach ($items as $item) {
       $ids[] = $item['target_id'];
     }
+    // Corresponding Kdata entity type has the same name with the Node bundle.
     $list = entity_load($node->type, $ids);
   }
 
